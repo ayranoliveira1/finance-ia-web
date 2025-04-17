@@ -33,7 +33,6 @@ export default function RootLayout({
 
           <Toaster />
         </div>
-        {children}
       </body>
     </html>
   )
