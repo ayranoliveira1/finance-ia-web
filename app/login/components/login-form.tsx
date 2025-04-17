@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { LogIn } from 'lucide-react'
+import { signIn } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useState } from 'react'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -29,6 +31,8 @@ const formSchema = z.object({
 export type LoginFormValues = z.infer<typeof formSchema>
 
 export function LoginForm() {
+  const [error, setError] = useState('')
+
   const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,9 +43,21 @@ export function LoginForm() {
     },
   })
 
-  function onSubmit(data: LoginFormValues) {
-    console.log('Form data:', data)
-    router.push('/dashboard')
+  async function onSubmit(data: LoginFormValues) {
+    const result = await signIn('credentials', {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+      callbackUrl: '/admin',
+    })
+
+    if (result?.error) {
+      setError(result.error)
+    }
+
+    if (result?.url) {
+      router.push(result.url)
+    }
   }
 
   return (
@@ -99,6 +115,12 @@ export function LoginForm() {
             </div>
           )}
         </Button>
+
+        {error && (
+          <div className="my-4 p-2 bg-red-100 text-red-700 rounded">
+            {error}
+          </div>
+        )}
       </form>
     </Form>
   )
