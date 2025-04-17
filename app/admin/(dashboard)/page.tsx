@@ -1,11 +1,13 @@
 import { redirect } from 'next/navigation'
 // import TimeSelect from './_components/time-select'
 import { isMatch } from 'date-fns'
-import ExpensePerCategory from './_components/expenses-per-category'
+// import ExpensePerCategory from './_components/expenses-per-category'
 // import LastTransactions from './_components/last-transactions'
 import { Suspense } from 'react'
 import LastTransactionSkeleton from './_components/skeleton/last-tranasaction-skeleton'
 import Header from '@/components/header'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/auth/auth.config'
 
 interface HomePros {
   searchParams: {
@@ -15,6 +17,12 @@ interface HomePros {
 }
 
 const Home = async ({ searchParams: { year, month } }: HomePros) => {
+  const session = await getServerSession(authOptions)
+
+  if (!session) {
+    redirect('/login')
+  }
+
   const yearIsValid = !year || !isMatch(year, 'yyyy')
   const monthIsValid = !month || !isMatch(month, 'MM')
 
@@ -58,9 +66,9 @@ const Home = async ({ searchParams: { year, month } }: HomePros) => {
             <div className="grid grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
               {/* <TransactionsPieChart {...dashboard} /> */}
 
-              <ExpensePerCategory
+              {/* <ExpensePerCategory
               //  expensesPerCategory={dashboard.totalExpensePerCategory}
-              />
+              /> */}
             </div>
           </div>
 

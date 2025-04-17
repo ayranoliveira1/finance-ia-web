@@ -1,7 +1,17 @@
 import Image from 'next/image'
 import { LoginForm } from './components/login-form'
 
-export default function Home() {
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/auth/auth.config'
+
+export default async function Home() {
+  const session = await getServerSession(authOptions)
+
+  if (session) {
+    redirect('/admin')
+  }
+
   return (
     <div className="flex items-center justify-center flex-col h-full">
       <div className="container flex flex-1 flex-col items-center justify-center px-4 py-12 md:px-6">
