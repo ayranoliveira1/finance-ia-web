@@ -4,19 +4,17 @@ import { isMatch } from 'date-fns'
 // import ExpensePerCategory from './_components/expenses-per-category'
 // import LastTransactions from './_components/last-transactions'
 import { Suspense } from 'react'
-import LastTransactionSkeleton from './_components/skeleton/last-tranasaction-skeleton'
+import LastTransactionSkeleton from './components/skeleton/last-tranasaction-skeleton'
 import Header from '@/components/header'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
 
 interface HomePros {
-  searchParams: {
-    month: string
-    year: string
-  }
+  searchParams: Promise<{ [key: string]: string }>
 }
 
-const Home = async ({ searchParams: { year, month } }: HomePros) => {
+const Home = async ({ searchParams }: HomePros) => {
+  const { year, month } = await searchParams
   const session = await getServerSession(authOptions)
 
   if (!session) {
