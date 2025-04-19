@@ -30,16 +30,11 @@ export const authOptions: NextAuthOptions = {
           }
 
           const data = await response.json()
-          const cookies = response.headers.get('set-cookie') || ''
+          const cookies = response.headers.get('set-cookie') as string
 
-          // Extrai o refreshToken dos cookies
-          const refreshToken = cookies
-            .split(';')
-            .find((c) => c.trim().startsWith('refreshToken='))
-            ?.split('=')[1]
+          const refreshToken = cookies.split(';')[0].split('=')[1]
 
-          //|| !refreshToken
-          if (!data.token) {
+          if (!data.token || !refreshToken) {
             throw new Error('Authentication data incomplete')
           }
 
@@ -62,7 +57,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
-    maxAge: 1 * 24 * 60 * 60, // 1 dias
+    maxAge: 1 * 24 * 60 * 60,
   },
   callbacks: {
     async jwt({ token, user, account }) {
@@ -81,7 +76,6 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // Renovação do token
       if (token.refreshToken) {
         return await refreshAccessToken(token)
       }
@@ -111,13 +105,15 @@ export const authOptions: NextAuthOptions = {
 async function refreshAccessToken(token: any) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Cookie: `refreshToken=${token.refreshToken}`,
         },
+        body: JSON.stringify({
+          refreshToken: token.refreshToken,
+        }),
         credentials: 'include',
       },
     )
@@ -127,14 +123,9 @@ async function refreshAccessToken(token: any) {
     }
 
     const data = await response.json()
-    const cookies = response.headers.get('set-cookie') || ''
+    const cookies = response.headers.get('set-cookie') as string
 
-    // Extrai o novo refreshToken dos cookies
-    const newRefreshToken =
-      cookies
-        .split(';')
-        .find((c) => c.trim().startsWith('refreshToken='))
-        ?.split('=')[1] || token.refreshToken
+    const newRefreshToken = cookies.split(';')[0].split('=')[1]
 
     return {
       ...token,
