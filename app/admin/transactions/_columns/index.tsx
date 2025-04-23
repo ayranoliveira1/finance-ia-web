@@ -9,6 +9,7 @@ import {
 import { formatCurrency } from '@/lib/currency'
 import TransactionTypeBadge from '../components/type-badge'
 import EditTransactionButton from '../components/edit-transaction-button'
+import DeleteTransactionButton from '../components/deleteTransaction-button'
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -58,7 +59,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
         <div className="space-x-1">
           <EditTransactionButton transaction={transaction} />
 
-          {/* <DeleteTransactionButton transactionId={transaction.id} /> */}
+          <DeleteTransactionButton transactionId={transaction.id} />
         </div>
       )
     },
