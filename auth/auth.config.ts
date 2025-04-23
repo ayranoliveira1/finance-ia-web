@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
-    maxAge: 1 * 24 * 60 * 60,
+    maxAge: 30 * 60,
   },
   callbacks: {
     async jwt({ token, user, account }) {
@@ -66,6 +66,8 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          accessTokenExpires: Date.now() + 30 * 60 * 1000,
           user: {
             id: user.id,
             name: user.name,
@@ -76,7 +78,11 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      if (token.refreshToken) {
+      if (
+        token.accessTokenExpires &&
+        Date.now() > Number(token.accessTokenExpires) - 5 * 60 * 1000
+      ) {
+        console.log('Token expirando, tentando refresh...')
         return await refreshAccessToken(token)
       }
 
@@ -97,6 +103,7 @@ export const authOptions: NextAuthOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
+        maxAge: 7 * 24 * 60 * 60,
       },
     },
   },
@@ -104,12 +111,17 @@ export const authOptions: NextAuthOptions = {
 
 async function refreshAccessToken(token: any) {
   try {
+    if (!token.refreshToken) {
+      throw new Error('No refresh token available')
+    }
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.accessToken}`,
         },
         body: JSON.stringify({
           refreshToken: token.refreshToken,
@@ -118,8 +130,17 @@ async function refreshAccessToken(token: any) {
       },
     )
 
+    console.log('refrsh')
+
     if (!response.ok) {
-      throw new Error('Failed to refresh token')
+      const errorText = await response.text()
+      console.error(
+        'Refresh failed - Status:',
+        response.status,
+        'Response:',
+        errorText,
+      )
+      throw new Error(errorText || 'Failed to refresh token')
     }
 
     const data = await response.json()
@@ -130,6 +151,7 @@ async function refreshAccessToken(token: any) {
     return {
       ...token,
       accessToken: data.token,
+      accessTokenExpires: Date.now() + 30 * 60 * 1000,
       refreshToken: newRefreshToken,
       error: null,
     }

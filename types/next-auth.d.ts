@@ -39,5 +39,6 @@ declare module 'next-auth/jwt' {
       subscriptionPlan: SubscriptionPlan
     }
     error?: string
+    expiresAt?: number
   }
 }
