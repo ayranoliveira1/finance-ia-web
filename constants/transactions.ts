@@ -1,3 +1,9 @@
+import {
+  TransactionCategory,
+  TransactionPaymentMethod,
+  TransactionType,
+} from '@/types/enums'
+
 export const TRANSACTION_CATEGORY_LABELS = {
   EDUCATION: 'Educação',
   ENTERTAINMENT: 'Entretenimento',
@@ -21,87 +27,91 @@ export const TRANSACTION_PAYMENT_METHOD_LABELS = {
 }
 
 export const TRANSACTION_TYPE_OPTIONS = [
-  { value: 'EXPENSE', label: 'Despesa' },
-  { value: 'DEPOSIT', label: 'Depósito' },
-  { value: 'INVESTMENT', label: 'Investimento' },
+  { value: TransactionType.EXPENSE, label: 'Despesa' },
+  { value: TransactionType.DEPOSIT, label: 'Depósito' },
+  { value: TransactionType.INVESTMENT, label: 'Investimento' },
 ]
 
 export const TRANSACTION_PAYMENT_METHOD_OPTIONS = [
   {
-    value: 'BANK_TRANSFER',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['BANK_TRANSFER'],
+    value: TransactionPaymentMethod.BANK_TRANSFER,
+    label:
+      TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.BANK_TRANSFER],
   },
   {
-    value: 'BANK_SLIP',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['BANK_SLIP'],
+    value: TransactionPaymentMethod.BANK_SLIP,
+    label:
+      TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.BANK_SLIP],
   },
   {
-    value: 'CASH',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['CASH'],
+    value: TransactionPaymentMethod.CASH,
+    label: TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.CASH],
   },
   {
-    value: 'CREDIT_CARD',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['CREDIT_CARD'],
+    value: TransactionPaymentMethod.CREDIT_CARD,
+    label:
+      TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.CREDIT_CARD],
   },
   {
-    value: 'DEBIT_CARD',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['DEBIT_CARD'],
+    value: TransactionPaymentMethod.DEBIT_CARD,
+    label:
+      TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.DEBIT_CARD],
   },
   {
-    value: 'OTHER',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['OTHER'],
+    value: TransactionPaymentMethod.OTHER,
+    label: TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.OTHER],
   },
   {
-    value: 'PIX',
-    label: TRANSACTION_PAYMENT_METHOD_LABELS['PIX'],
+    value: TransactionPaymentMethod.PIX,
+    label: TRANSACTION_PAYMENT_METHOD_LABELS[TransactionPaymentMethod.PIX],
   },
 ]
 
 export const TRANSACTION_CATEGORY_OPTIONS = [
   {
-    value: 'EDUCATION',
-    label: TRANSACTION_CATEGORY_LABELS['EDUCATION'],
+    value: TransactionCategory.EDUCATION,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.EDUCATION],
   },
   {
-    value: 'ENTERTAINMENT',
-    label: TRANSACTION_CATEGORY_LABELS['ENTERTAINMENT'],
+    value: TransactionCategory.ENTERTAINMENT,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.ENTERTAINMENT],
   },
   {
-    value: 'FOOD',
-    label: TRANSACTION_CATEGORY_LABELS['FOOD'],
+    value: TransactionCategory.FOOD,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.FOOD],
   },
   {
-    value: 'HEALTH',
-    label: TRANSACTION_CATEGORY_LABELS['HEALTH'],
+    value: TransactionCategory.HEALTH,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HEALTH],
   },
   {
-    value: 'HOUSING',
-    label: TRANSACTION_CATEGORY_LABELS['HOUSING'],
+    value: TransactionCategory.HOUSING,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.HOUSING],
   },
   {
-    value: 'OTHER',
-    label: TRANSACTION_CATEGORY_LABELS['OTHER'],
+    value: TransactionCategory.OTHER,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.OTHER],
   },
   {
-    value: 'SALARY',
-    label: TRANSACTION_CATEGORY_LABELS['SALARY'],
+    value: TransactionCategory.SALARY,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.SALARY],
   },
   {
-    value: 'TRANSPORTATION',
-    label: TRANSACTION_CATEGORY_LABELS['TRANSPORTATION'],
+    value: TransactionCategory.TRANSPORTATION,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.TRANSPORTATION],
   },
   {
-    value: 'UTILITY',
-    label: TRANSACTION_CATEGORY_LABELS['UTILITY'],
+    value: TransactionCategory.UTILITY,
+    label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.UTILITY],
   },
 ]
 
 export const TRANSACTION_PAYMENT_METHOD_ICONS = {
-  ['CREDIT_CARD']: 'credit-card.svg',
-  ['DEBIT_CARD']: 'debit-card.svg',
-  ['BANK_TRANSFER']: 'bank-transfer.svg',
-  ['BANK_SLIP']: 'bank-slip.svg',
-  ['CASH']: 'money.svg',
-  ['PIX']: 'pix.svg',
-  ['OTHER']: 'other.svg',
+  [TransactionPaymentMethod.CREDIT_CARD]: 'credit-card.svg',
+  [TransactionPaymentMethod.DEBIT_CARD]: 'debit-card.svg',
+  [TransactionPaymentMethod.BANK_TRANSFER]: 'bank-transfer.svg',
+  [TransactionPaymentMethod.BANK_SLIP]: 'bank-slip.svg',
+  [TransactionPaymentMethod.CASH]: 'money.svg',
+  [TransactionPaymentMethod.PIX]: 'pix.svg',
+  [TransactionPaymentMethod.OTHER]: 'other.svg',
 }
