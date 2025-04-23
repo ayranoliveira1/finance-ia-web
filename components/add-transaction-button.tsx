@@ -6,9 +6,9 @@ import { Dialog } from './ui/dialog'
 import { DialogTrigger } from '@radix-ui/react-dialog'
 
 import { useState } from 'react'
-// import UpsertTransactionDialog from "./upsert-transaction-dialog";
 import { Tooltip, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { TooltipContent } from '@radix-ui/react-tooltip'
+import UpsertTransactionDialog from './upsert-transaction-dialog'
 
 interface AddTransactionButtonProps {
   userCanAddTransaction?: boolean
@@ -47,7 +47,7 @@ const AddTransactionButton = ({
         </Tooltip>
       </TooltipProvider>
 
-      {/* <UpsertTransactionDialog setDialogIsOpen={setDialogIsOpen} /> */}
+      <UpsertTransactionDialog setDialogIsOpen={setDialogIsOpen} />
     </Dialog>
   )
 }
