@@ -283,12 +283,19 @@ const UpsertTransactionDialog = ({
             </DialogClose>
 
             {isSubmitting ? (
-              <Button type="submit" disabled>
+              <Button
+                type="submit"
+                disabled
+                className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
+              >
                 <LoaderCircleIcon className="animate-spin" />
                 {isUpdate ? 'Atualizando' : 'Adicionando'}
               </Button>
             ) : (
-              <Button type="submit">
+              <Button
+                type="submit"
+                className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
+              >
                 {isUpdate ? 'Atualizar' : 'Adicionar'}
               </Button>
             )}

@@ -9,18 +9,20 @@ const NavHeader = () => {
   return (
     <div className="hidden items-center gap-10 lg:flex">
       <Link
-        href="/"
-        className={`font-bold hover:text-primary ${
-          pathname === '/' ? 'font-bold text-primary' : 'text-muted-foreground'
+        href="/admin"
+        className={`font-bold hover:text-[#55B02E] ${
+          pathname === '/admin'
+            ? 'font-bold text-[#55B02E]'
+            : 'text-muted-foreground'
         }`}
       >
         Dashboard
       </Link>
       <Link
         href="/admin/transactions"
-        className={`font-bold hover:text-primary ${
+        className={`font-bold hover:text-[#55B02E] ${
           pathname === '/admin/transactions'
-            ? 'font-bold text-primary'
+            ? 'font-bold text-[#55B02E]'
             : 'text-muted-foreground'
         }`}
       >
@@ -28,9 +30,9 @@ const NavHeader = () => {
       </Link>
       <Link
         href="/admin/subscription"
-        className={`font-bold hover:text-primary ${
+        className={`font-bold hover:text-[#55B02E] ${
           pathname === '/admin/subscription'
-            ? 'font-bold text-primary'
+            ? 'font-bold text-[#55B02E]'
             : 'text-muted-foreground'
         }`}
       >

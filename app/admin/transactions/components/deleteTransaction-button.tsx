@@ -71,7 +71,7 @@ const DeleteTransactionButton = ({
           <Button
             disabled={isLoading}
             onClick={handleDeleteTransaction}
-            className="bg-red-500 hover:bg-red-600"
+            className="bg-red-500 hover:bg-red-600 text-white"
           >
             {isLoading && <LoaderCircleIcon className="animate-spin" />}
             {isLoading ? 'Deletando' : 'Deletar'}

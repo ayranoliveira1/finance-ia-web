@@ -12,8 +12,8 @@ const TransactionTypeBadge = ({ transaction }: TransactionTypeBadgeProps) => {
   // Check the type of transaction and render the corresponding badge
   if (transaction.type === TransactionType.DEPOSIT) {
     return (
-      <Badge className="gap-2 bg-muted font-bold text-primary hover:bg-muted">
-        <CircleIcon className="fill-primary" size={10} />
+      <Badge className="gap-2 bg-[#55B02E]/10 font-bold text-[#55B02E] hover:bg-muted">
+        <CircleIcon className="fill-[#55B02E]" size={10} />
         Depósito
       </Badge>
     )
@@ -21,15 +21,15 @@ const TransactionTypeBadge = ({ transaction }: TransactionTypeBadgeProps) => {
   // Check if the transaction is a transfer
   if (transaction.type === TransactionType.EXPENSE) {
     return (
-      <Badge className="gap-2 bg-danger bg-opacity-10 font-bold text-danger hover:bg-danger hover:bg-opacity-10">
-        <CircleIcon className="fill-danger" size={10} />
+      <Badge className="gap-2 bg-red-500/10 font-bold text-red-500 hover:bg-red-500 hover:bg-opacity-10">
+        <CircleIcon className="fill-red-500" size={10} />
         Despesa
       </Badge>
     )
   }
 
   return (
-    <Badge className="gap-2 bg-white bg-opacity-10 font-bold text-white hover:bg-white hover:bg-opacity-10">
+    <Badge className="gap-2 bg-white/10 font-bold text-white hover:bg-white hover:bg-opacity-10">
       <CircleIcon className="fill-white" size={10} />
       ivestimnento
     </Badge>

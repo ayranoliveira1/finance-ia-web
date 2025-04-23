@@ -30,9 +30,9 @@ const MenuHeader = () => {
           <SheetDescription>
             <div className="mt-8 flex flex-col gap-4">
               <Link
-                href="/"
+                href="/admin"
                 className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
-                  pathname === '/'
+                  pathname === '/admin'
                     ? 'bg-gray-700/20 font-bold text-primary'
                     : 'text-muted-foreground'
                 }`}
