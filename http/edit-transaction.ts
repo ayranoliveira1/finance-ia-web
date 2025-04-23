@@ -3,7 +3,7 @@
 import { FormTransactionType } from '@/components/upsert-transaction-dialog'
 import { revalidatePath } from 'next/cache'
 
-export const EditTransaction = async (
+export const editTransaction = async (
   data: FormTransactionType,
   accessToken: string,
   transactionId: string,

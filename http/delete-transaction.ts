@@ -1,21 +1,19 @@
 'use server'
 
-import { FormTransactionType } from '@/components/upsert-transaction-dialog'
 import { revalidatePath } from 'next/cache'
 
-export const createTransaction = async (
-  data: FormTransactionType,
+export const deleteTransaction = async (
+  transactionId: string,
   accessToken: string,
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/transactions`,
+    `${process.env.NEXT_PUBLIC_API_URL}/transactions/${transactionId}`,
     {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(data),
     },
   )
 
@@ -25,5 +23,5 @@ export const createTransaction = async (
 
   revalidatePath('/admin/transactions')
 
-  return response.json()
+  return 'success'
 }
