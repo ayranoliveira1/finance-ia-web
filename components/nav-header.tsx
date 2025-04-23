@@ -17,9 +17,9 @@ const NavHeader = () => {
         Dashboard
       </Link>
       <Link
-        href="/transactions"
+        href="/admin/transactions"
         className={`font-bold hover:text-primary ${
-          pathname === '/transactions'
+          pathname === '/admin/transactions'
             ? 'font-bold text-primary'
             : 'text-muted-foreground'
         }`}
@@ -27,9 +27,9 @@ const NavHeader = () => {
         Transações
       </Link>
       <Link
-        href="/subscription"
+        href="/admin/subscription"
         className={`font-bold hover:text-primary ${
-          pathname === '/subscription'
+          pathname === '/admin/subscription'
             ? 'font-bold text-primary'
             : 'text-muted-foreground'
         }`}

@@ -40,9 +40,9 @@ const MenuHeader = () => {
                 Dashboard
               </Link>
               <Link
-                href="/transactions"
+                href="/admin/transactions"
                 className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
-                  pathname === '/transactions'
+                  pathname === '/admin/transactions'
                     ? 'bg-gray-700/20 font-bold text-primary'
                     : 'text-muted-foreground'
                 }`}
@@ -50,9 +50,9 @@ const MenuHeader = () => {
                 Transações
               </Link>
               <Link
-                href="/subscription"
+                href="/admin/subscription"
                 className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
-                  pathname === '/subscription'
+                  pathname === '/admin/subscription'
                     ? 'bg-gray-700/20 font-bold text-primary'
                     : 'text-muted-foreground'
                 }`}
