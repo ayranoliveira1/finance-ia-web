@@ -21,8 +21,8 @@ const TransactionsPage = async () => {
     <>
       <Header />
 
-      <div className="flex flex-col space-y-4 overflow-hidden p-6">
-        <div className="flex w-full items-center justify-between">
+      <div className="flex flex-col space-y-4 overflow-hidden py-6 px-5">
+        <div className="flex w-full items-center justify-between px-1">
           <h1 className="text-2xl font-bold">Transações</h1>
 
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />

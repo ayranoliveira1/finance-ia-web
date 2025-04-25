@@ -162,7 +162,7 @@ export function DataTable({ columns, accessToken }: DataTableProps) {
   }
 
   return (
-    <div>
+    <div className="px-1">
       <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Pesquisar pelo nome"
