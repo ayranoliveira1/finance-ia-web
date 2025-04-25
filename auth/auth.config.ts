@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 60,
+    maxAge: 7 * 24 * 60 * 60,
   },
   callbacks: {
     async jwt({ token, user, account }) {
@@ -103,7 +103,7 @@ export const authOptions: NextAuthOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 30 * 60 * 1000,
       },
     },
   },
@@ -121,11 +121,8 @@ async function refreshAccessToken(token: any) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token.accessToken}`,
+          Cookie: `refresh_token=${token.refreshToken}`,
         },
-        body: JSON.stringify({
-          refreshToken: token.refreshToken,
-        }),
         credentials: 'include',
       },
     )
