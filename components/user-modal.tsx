@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 
 interface ModalhoverProps {
   trigger: ReactNode
@@ -9,6 +9,29 @@ interface ModalhoverProps {
 
 const UserModal = ({ trigger, content, position, width }: ModalhoverProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  const togleModal = () => setIsOpen((prev) => !prev)
+
+  const closeModal = () => setIsOpen(false)
+
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      const clickOutside =
+        modalRef.current &&
+        !modalRef.current.contains(event.target as HTMLElement)
+
+      if (clickOutside) closeModal()
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
 
   const positionClasses = {
     top: 'bottom-full mb-1',
@@ -26,11 +49,8 @@ const UserModal = ({ trigger, content, position, width }: ModalhoverProps) => {
   }
 
   return (
-    <div className="relative inline-block">
-      <div
-        className="cursor-pointer inline-block"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+    <div className="relative inline-block" ref={modalRef}>
+      <div className="cursor-pointer inline-block" onClick={togleModal}>
         {trigger}
       </div>
 
