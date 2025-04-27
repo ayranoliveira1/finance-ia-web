@@ -7,7 +7,12 @@ interface ModalhoverProps {
   width?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const UserModal = ({ trigger, content, position, width }: ModalhoverProps) => {
+const ActionModal = ({
+  trigger,
+  content,
+  position,
+  width,
+}: ModalhoverProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -65,4 +70,4 @@ const UserModal = ({ trigger, content, position, width }: ModalhoverProps) => {
   )
 }
 
-export default UserModal
+export default ActionModal
