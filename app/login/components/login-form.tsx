@@ -52,7 +52,11 @@ export function LoginForm() {
     })
 
     if (result?.error) {
-      setError(result.error)
+      setError(
+        result.error === 'CredentialsSignin'
+          ? 'Email ou senha inválidos.'
+          : result.error,
+      )
     }
 
     if (result?.url) {
