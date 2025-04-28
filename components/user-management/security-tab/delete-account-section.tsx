@@ -20,17 +20,17 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { FormEditCard } from '../shared/form-edit-card'
-import { LoaderIcon } from 'lucide-react'
+import { LoaderCircleIcon } from 'lucide-react'
+import { useEffect } from 'react'
 
-/**
- * Delete account section component with form validation
- */
 export function DeleteAccountSection() {
   const {
     deletingAccount,
     setDeletingAccount,
     handleDeleteAccount,
     deleteAccountError,
+    setDeleteAccountError,
+    isLoading,
   } = useUserManagement()
 
   const form = useForm<DeleteAccountFormValues>({
@@ -41,8 +41,17 @@ export function DeleteAccountSection() {
   })
 
   const onSubmit = (data: DeleteAccountFormValues) => {
+    setDeleteAccountError('')
     handleDeleteAccount(data)
   }
+
+  useEffect(() => {
+    if (deleteAccountError) {
+      form.setError('password', {
+        message: deleteAccountError,
+      })
+    }
+  }, [deleteAccountError, form])
 
   return (
     <div className="py-4 relative">
@@ -52,7 +61,7 @@ export function DeleteAccountSection() {
         <Button
           variant="ghost"
           size="sm"
-          className="text-red-500 hover:text-red-400 hover:bg-red-950/30 px-0"
+          className="text-red-500 hover:text-red-400 px-2 hover:bg-red-950/30"
           onClick={() => setDeletingAccount(true)}
         >
           Deletar conta
@@ -64,7 +73,7 @@ export function DeleteAccountSection() {
           <FormEditCard
             title="Deletar conta"
             onCancel={() => setDeletingAccount(false)}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isLoading}
           >
             <Form {...form}>
               <form
@@ -87,11 +96,11 @@ export function DeleteAccountSection() {
                         />
                       </FormControl>
                       <FormMessage className="text-xs text-red-400" />
-                      {deleteAccountError && (
+                      {/* {deleteAccountError && (
                         <p className="text-xs text-red-400">
                           {deleteAccountError}
                         </p>
-                      )}
+                      )} */}
                     </FormItem>
                   )}
                 />
@@ -107,7 +116,11 @@ export function DeleteAccountSection() {
                     variant="ghost"
                     size="sm"
                     className="text-xs h-8"
-                    onClick={() => setDeletingAccount(false)}
+                    onClick={() => {
+                      setDeletingAccount(false)
+                      setDeleteAccountError('')
+                      form.reset()
+                    }}
                   >
                     Cancelar
                   </Button>
@@ -116,11 +129,11 @@ export function DeleteAccountSection() {
                     variant="destructive"
                     size="sm"
                     className="text-xs h-8"
-                    disabled={form.formState.isSubmitting}
+                    disabled={isLoading}
                   >
-                    {form.formState.isSubmitting ? (
+                    {isLoading ? (
                       <>
-                        <LoaderIcon /> Deletando...
+                        <LoaderCircleIcon /> Deletando...
                       </>
                     ) : (
                       'Deletar conta'

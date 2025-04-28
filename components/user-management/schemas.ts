@@ -1,59 +1,52 @@
 import * as z from 'zod'
 
-/**
- * Schema for username update form
- */
 export const usernameFormSchema = z.object({
   username: z
     .string()
-    .min(3, { message: 'Username must be at least 3 characters' })
-    .max(20, { message: 'Username must be at most 20 characters' })
+    .min(3, { message: 'Username deve ter pelo menos 3 caracteres' })
+    .max(20, { message: 'Username deve ter no máximo 20 caracteres' })
     .regex(/^[a-zA-Z0-9_-]+$/, {
       message:
-        'Username can only contain letters, numbers, underscores, and hyphens',
+        'Username deve conter apenas letras, números, traços e sublinhados',
     }),
 })
 
 export type UsernameFormValues = z.infer<typeof usernameFormSchema>
 
-/**
- * Schema for password update form
- */
 export const passwordFormSchema = z
   .object({
     currentPassword: z
       .string()
-      .min(1, { message: 'Current password is required' }),
+      .min(8, { message: 'Senha é obrigatória para deletar sua conta' }),
     newPassword: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters' })
+      .min(8, { message: 'Senha deve ter pelo menos 8 caracteres' })
       .regex(/[A-Z]/, {
-        message: 'Password must contain at least one uppercase letter',
+        message: 'Senha deve conter pelo menos uma letra maiúscula',
       })
       .regex(/[a-z]/, {
-        message: 'Password must contain at least one lowercase letter',
+        message: 'Senha deve conter pelo menos uma letra minúscula',
       })
-      .regex(/[0-9]/, { message: 'Password must contain at least one number' })
+      .regex(/[0-9]/, { message: 'Senha deve conter pelo menos um número' })
       .regex(/[^A-Za-z0-9]/, {
-        message: 'Password must contain at least one special character',
+        message: 'Senha deve conter pelo menos um caractere especial',
       }),
-    confirmPassword: z.string(),
+    confirmPassword: z
+      .string()
+      .min(8, { message: 'Senha deve ter pelo menos 8 caracteres' }),
     signOutOtherDevices: z.boolean(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Senhas não coincidem',
     path: ['confirmPassword'],
   })
 
 export type PasswordFormValues = z.infer<typeof passwordFormSchema>
 
-/**
- * Schema for account deletion form
- */
 export const deleteAccountFormSchema = z.object({
   password: z
     .string()
-    .min(1, { message: 'Password is required to delete your account' }),
+    .min(8, { message: 'Senha é obrigatória para deletar sua conta' }),
 })
 
 export type DeleteAccountFormValues = z.infer<typeof deleteAccountFormSchema>
