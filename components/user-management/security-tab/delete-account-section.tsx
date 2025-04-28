@@ -20,13 +20,18 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { FormEditCard } from '../shared/form-edit-card'
+import { LoaderIcon } from 'lucide-react'
 
 /**
  * Delete account section component with form validation
  */
 export function DeleteAccountSection() {
-  const { deletingAccount, setDeletingAccount, handleDeleteAccount } =
-    useUserManagement()
+  const {
+    deletingAccount,
+    setDeletingAccount,
+    handleDeleteAccount,
+    deleteAccountError,
+  } = useUserManagement()
 
   const form = useForm<DeleteAccountFormValues>({
     resolver: zodResolver(deleteAccountFormSchema),
@@ -82,6 +87,11 @@ export function DeleteAccountSection() {
                         />
                       </FormControl>
                       <FormMessage className="text-xs text-red-400" />
+                      {deleteAccountError && (
+                        <p className="text-xs text-red-400">
+                          {deleteAccountError}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -108,9 +118,13 @@ export function DeleteAccountSection() {
                     className="text-xs h-8"
                     disabled={form.formState.isSubmitting}
                   >
-                    {form.formState.isSubmitting
-                      ? 'Deletando...'
-                      : 'Deletar conta'}
+                    {form.formState.isSubmitting ? (
+                      <>
+                        <LoaderIcon /> Deletando...
+                      </>
+                    ) : (
+                      'Deletar conta'
+                    )}
                   </Button>
                 </div>
               </form>
