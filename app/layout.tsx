@@ -1,18 +1,12 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Mulish } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'sonner'
 import AuthProvider from '@/providers/auth'
 import QueryProvider from '@/providers/query-provider'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const mulish = Mulish({
+  subsets: ['latin-ext'],
 })
 
 export const metadata: Metadata = {
@@ -27,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
-      >
+      <body className={`${mulish.className} dark antialiased`}>
         <AuthProvider>
           <div className="flex h-full flex-col lg:overflow-hidden">
             <QueryProvider>{children}</QueryProvider>
