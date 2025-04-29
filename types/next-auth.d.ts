@@ -16,6 +16,7 @@ declare module 'next-auth' {
     email: string
     role: UserRole
     subscriptionPlan: SubscriptionPlan
+    createdAt: Date
     accessToken?: string
     refreshToken?: string
   }
@@ -37,6 +38,7 @@ declare module 'next-auth/jwt' {
       email: string
       role: UserRole
       subscriptionPlan: SubscriptionPlan
+      createdAt: Date
     }
     error?: string
     expiresAt?: number

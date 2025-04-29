@@ -38,12 +38,15 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Authentication data incomplete')
           }
 
+          const dataUser = await fetchUserData(data.token)
+
           return {
-            id: data.user.id,
-            name: data.user.name,
-            email: data.user.email,
-            role: data.user.role as User['role'],
-            subscriptionPlan: data.user.subscriptionPlan,
+            id: dataUser.id,
+            name: dataUser.name,
+            email: dataUser.email,
+            role: dataUser.role as User['role'],
+            createdAt: dataUser.createdAt,
+            subscriptionPlan: dataUser.subscriptionPlan,
             accessToken: data.token,
             refreshToken: refreshToken,
           }
@@ -60,7 +63,24 @@ export const authOptions: NextAuthOptions = {
     maxAge: 7 * 24 * 60 * 60,
   },
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, trigger, account }) {
+      if (trigger === 'update') {
+        try {
+          const updateUser = await fetchUserData(token.accessToken)
+
+          return {
+            ...token,
+            user: {
+              ...token.user,
+              ...updateUser,
+            },
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error)
+          return token
+        }
+      }
+
       // Login inicial
       if (account && user) {
         return {
@@ -74,6 +94,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             role: user.role,
             subscriptionPlan: user.subscriptionPlan,
+            createdAt: user.createdAt,
           },
         }
       }
@@ -159,6 +180,25 @@ async function refreshAccessToken(token: any) {
       error: 'RefreshAccessTokenError',
     }
   }
+}
+
+async function fetchUserData(accessToken: string): Promise<User> {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: 'include',
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.message || 'Authentication failed')
+  }
+
+  const data = await response.json()
+  return data.user
 }
 
 export default NextAuth(authOptions)
