@@ -10,9 +10,12 @@ import { paymentStripe } from '@/http/payment-stripe'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { LoaderCircleIcon } from 'lucide-react'
+import { ManagePlanModal } from './manager-plan'
 
 const AcquirePlanButton = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState(false)
+
   const { user, accessToken } = useAuth()
 
   const router = useRouter()
@@ -28,20 +31,21 @@ const AcquirePlanButton = () => {
   }
 
   const hashPriemiumPlan = user?.subscriptionPlan === 'PREMIUM'
+  // href={`${process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL as string}?prefilled_email=${user.email}`}
 
   if (hashPriemiumPlan) {
     return (
-      <Button
-        asChild
-        className="w-full rounded-full border border-[#55B02E] font-bold"
-        variant="link"
-      >
-        <Link
-          href={`${process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL as string}?prefilled_email=${user.email}`}
+      <>
+        <Button
+          onClick={() => setIsOpen(true)}
+          asChild
+          className="w-full rounded-full border border-[#55B02E] font-bold"
+          variant="link"
         >
-          Gerenciar Plano
-        </Link>
-      </Button>
+          <Link href={''}>Gerenciar Plano</Link>
+        </Button>
+        <ManagePlanModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
     )
   }
 
