@@ -47,6 +47,10 @@ type UserManagementContextType = {
   setDeleteAccountError: (error: string) => void
   editPasswordError: string
   setEditPasswordError: (error: string) => void
+  editEmailError: string
+  setEditEmailError: (error: string) => void
+  editUsernameError: string
+  setEditUsernameError: (error: string) => void
 
   // Password visibility
   showNewPassword: boolean
@@ -78,6 +82,8 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
 
   const [deleteAccountError, setDeleteAccountError] = useState('')
   const [editPasswordError, setEditPasswordError] = useState('')
+  const [editEmailError, setEditEmailError] = useState('')
+  const [editUsernameError, setEditUsernameError] = useState('')
 
   const { user, accessToken } = useAuth()
   const { update } = useSession()
@@ -99,10 +105,32 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     setEditingProfile(false)
   }
 
-  const handleUsernameUpdate = (data: UsernameFormValues) => {
-    console.log('Username update data:', data)
-    setUserData({ username: data.username })
+  const handleUsernameUpdate = async (data: UsernameFormValues) => {
+    setIsLoading(true)
+
+    const dataUsername = {
+      name: data.username,
+    }
+
+    const response = await editUser(dataUsername, accessToken!)
+
+    if (response !== 'success') {
+      toast.error('Erro ao atualizar nome de usuário.')
+      const errorMessage =
+        response.message === 'Invalid credentials'
+          ? 'Erro ao atualizar nome de usuário.'
+          : response.message
+
+      setEditUsernameError(errorMessage)
+      setIsLoading(false)
+      return
+    }
+    // setUserData({ username: data.username })
+    await update()
+
+    toast.success('Nome de usuário atualizado com sucesso!')
     setEditingUsername(false)
+    setIsLoading(false)
   }
 
   const handlePasswordUpdate = async (data: PasswordFormValues) => {
@@ -196,6 +224,10 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     setDeleteAccountError,
     editPasswordError,
     setEditPasswordError,
+    editEmailError,
+    setEditEmailError,
+    editUsernameError,
+    setEditUsernameError,
   }
 
   return (
