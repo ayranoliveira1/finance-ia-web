@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormEditCard } from '../shared/form-edit-card'
+import { useEffect } from 'react'
 
 export function PasswordSection() {
   const {
@@ -29,6 +30,9 @@ export function PasswordSection() {
     setShowNewPassword,
     showConfirmPassword,
     setShowConfirmPassword,
+    editPasswordError,
+    setEditPasswordError,
+    isLoading,
   } = useUserManagement()
 
   const form = useForm<PasswordFormValues>({
@@ -42,8 +46,17 @@ export function PasswordSection() {
   })
 
   const onSubmit = (data: PasswordFormValues) => {
+    setEditPasswordError('')
     handlePasswordUpdate(data)
   }
+
+  useEffect(() => {
+    if (editPasswordError) {
+      form.setError('currentPassword', {
+        message: editPasswordError,
+      })
+    }
+  }, [editPasswordError, form])
 
   return (
     <div className="flex items-center justify-between py-4 border-b border-gray-800 relative">
@@ -67,7 +80,7 @@ export function PasswordSection() {
           <FormEditCard
             title="Redefinir senha"
             onCancel={() => setSettingPassword(false)}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isLoading}
           >
             <Form {...form}>
               <form
@@ -202,9 +215,9 @@ export function PasswordSection() {
                     variant="default"
                     size="sm"
                     className="text-xs h-8 bg-gray-700 hover:bg-gray-600"
-                    disabled={form.formState.isSubmitting}
+                    disabled={isLoading}
                   >
-                    {form.formState.isSubmitting ? 'Salvando...' : 'Salvar'}
+                    {isLoading ? 'Salvando...' : 'Salvar'}
                   </Button>
                 </div>
               </form>
