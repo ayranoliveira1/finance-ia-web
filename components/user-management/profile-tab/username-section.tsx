@@ -26,6 +26,8 @@ export function UsernameSection() {
     editingUsername,
     setEditingUsername,
     handleUsernameUpdate,
+    setEditUsernameError,
+    isLoading,
   } = useUserManagement()
 
   const form = useForm<UsernameFormValues>({
@@ -36,6 +38,7 @@ export function UsernameSection() {
   })
 
   const onSubmit = (data: UsernameFormValues) => {
+    setEditUsernameError('')
     handleUsernameUpdate(data)
   }
 
@@ -62,7 +65,7 @@ export function UsernameSection() {
           <FormEditCard
             title="Atualizar username"
             onCancel={() => setEditingUsername(false)}
-            isSubmitting={form.formState.isSubmitting}
+            isSubmitting={isLoading}
           >
             <Form {...form}>
               <form
@@ -103,9 +106,9 @@ export function UsernameSection() {
                     variant="default"
                     size="sm"
                     className="text-xs h-8 bg-gray-700 hover:bg-gray-600"
-                    disabled={form.formState.isSubmitting}
+                    disabled={isLoading}
                   >
-                    {form.formState.isSubmitting ? 'Salvando...' : 'Salvar'}
+                    {isLoading ? 'Salvando...' : 'Salvar'}
                   </Button>
                 </div>
               </form>

@@ -5,9 +5,9 @@ export const usernameFormSchema = z.object({
     .string()
     .min(3, { message: 'Username deve ter pelo menos 3 caracteres' })
     .max(20, { message: 'Username deve ter no máximo 20 caracteres' })
-    .regex(/^[a-zA-Z0-9_-]+$/, {
+    .regex(/^[a-zA-Z0-9 _-]+$/, {
       message:
-        'Username deve conter apenas letras, números, traços e sublinhados',
+        'Username deve conter apenas letras, números, espaços, traços e sublinhados',
     }),
 })
 
