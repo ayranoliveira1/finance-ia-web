@@ -41,14 +41,18 @@ export function ProfileSection() {
       </div>
 
       {!editingProfile && (
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-xs h-8"
-          onClick={() => setEditingProfile(true)}
-        >
-          Atualizar perfil
-        </Button>
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-xs text-[#55B02E]">Em breve</p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-xs h-8"
+            disabled
+            onClick={() => setEditingProfile(true)}
+          >
+            Atualizar perfil
+          </Button>
+        </div>
       )}
 
       <AnimatePresence>

@@ -10,7 +10,8 @@ import type {
 import { useAuth } from '@/auth/useAuth'
 import { deleteAccount } from '@/http/delete-account'
 import { toast } from 'sonner'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
+import { editUser } from '@/http/edit-user'
 
 type UserData = {
   username: string
@@ -44,6 +45,8 @@ type UserManagementContextType = {
   // Error state
   deleteAccountError: string
   setDeleteAccountError: (error: string) => void
+  editPasswordError: string
+  setEditPasswordError: (error: string) => void
 
   // Password visibility
   showNewPassword: boolean
@@ -74,8 +77,10 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
   const [deletingAccount, setDeletingAccount] = useState(false)
 
   const [deleteAccountError, setDeleteAccountError] = useState('')
+  const [editPasswordError, setEditPasswordError] = useState('')
 
   const { user, accessToken } = useAuth()
+  const { update } = useSession()
 
   const [userData, setUserDataState] = useState<UserData>({
     username: user?.name || '',
@@ -100,9 +105,33 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     setEditingUsername(false)
   }
 
-  const handlePasswordUpdate = (data: PasswordFormValues) => {
-    console.log('Password update data:', data)
+  const handlePasswordUpdate = async (data: PasswordFormValues) => {
+    setIsLoading(true)
+
+    const dataPassword = {
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    }
+
+    const response = await editUser(dataPassword, accessToken!)
+
+    if (response !== 'success') {
+      toast.error('Erro ao atualizar senha.')
+      const errorMessage =
+        response.message === 'Invalid credentials'
+          ? 'Senha atual incorreta.'
+          : response.message
+
+      setEditPasswordError(errorMessage)
+      setIsLoading(false)
+      return
+    }
+
+    await update()
+
+    toast.success('Senha atualizada com sucesso!')
     setSettingPassword(false)
+    setIsLoading(false)
   }
 
   const handleDeleteAccount = async (data: DeleteAccountFormValues) => {
@@ -165,6 +194,8 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     handleFileChange,
     deleteAccountError,
     setDeleteAccountError,
+    editPasswordError,
+    setEditPasswordError,
   }
 
   return (
