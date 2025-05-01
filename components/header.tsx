@@ -48,7 +48,7 @@ const Header = () => {
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-white flex items-center justify-between ">
+                <span className="text-sm font-semibold text-white flex items-center justify-between w-[300px]">
                   <span>{user?.name || 'Usuário'}</span>
                   <span className="text-xs text-[#55B02E] font-semibold">
                     {user?.subscriptionPlan === 'FREE'
