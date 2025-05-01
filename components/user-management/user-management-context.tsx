@@ -6,12 +6,14 @@ import type {
   UsernameFormValues,
   PasswordFormValues,
   DeleteAccountFormValues,
+  EmailFormValues,
 } from './schemas'
 import { useAuth } from '@/auth/useAuth'
 import { deleteAccount } from '@/http/delete-account'
 import { toast } from 'sonner'
 import { signOut, useSession } from 'next-auth/react'
 import { editUser } from '@/http/edit-user'
+import { User } from 'next-auth'
 
 type UserData = {
   username: string
@@ -29,6 +31,7 @@ type UserManagementContextType = {
   setActiveTab: (tab: 'profile' | 'security') => void
 
   // User data
+  user: User | undefined
   userData: UserData
   setUserData: (data: Partial<UserData>) => void
 
@@ -37,6 +40,8 @@ type UserManagementContextType = {
   setEditingProfile: (editing: boolean) => void
   editingUsername: boolean
   setEditingUsername: (editing: boolean) => void
+  editingEmail: boolean
+  setEditingEmail: (editing: boolean) => void
   settingPassword: boolean
   setSettingPassword: (setting: boolean) => void
   deletingAccount: boolean
@@ -61,6 +66,7 @@ type UserManagementContextType = {
   // Form submission handlers
   handleProfileUpdate: () => void
   handleUsernameUpdate: (data: UsernameFormValues) => void
+  handleEmailUpdate: (data: EmailFormValues) => void
   handlePasswordUpdate: (data: PasswordFormValues) => void
   handleDeleteAccount: (data: DeleteAccountFormValues) => void
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
@@ -77,6 +83,7 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
 
   const [editingProfile, setEditingProfile] = useState(false)
   const [editingUsername, setEditingUsername] = useState(false)
+  const [editingEmail, setEditingEmail] = useState(false)
   const [settingPassword, setSettingPassword] = useState(false)
   const [deletingAccount, setDeletingAccount] = useState(false)
 
@@ -125,11 +132,37 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
       setIsLoading(false)
       return
     }
-    // setUserData({ username: data.username })
     await update()
 
     toast.success('Nome de usuário atualizado com sucesso!')
     setEditingUsername(false)
+    setIsLoading(false)
+  }
+
+  const handleEmailUpdate = async (data: EmailFormValues) => {
+    setIsLoading(true)
+
+    const dataEmail = {
+      email: data.email,
+    }
+
+    const response = await editUser(dataEmail, accessToken!)
+
+    if (response !== 'success') {
+      toast.error('Erro ao atualizar email.')
+      const errorMessage =
+        response.message === 'Invalid credentials'
+          ? 'Erro ao atualizar email.'
+          : response.message
+
+      setEditEmailError(errorMessage)
+      setIsLoading(false)
+      return
+    }
+    await update()
+
+    toast.success('Email atualizado com sucesso!')
+    setEditingEmail(false)
     setIsLoading(false)
   }
 
@@ -195,6 +228,7 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
   }
 
   const value = {
+    user,
     isOpen,
     setIsOpen,
     isLoading,
@@ -207,6 +241,8 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     setEditingProfile,
     editingUsername,
     setEditingUsername,
+    editingEmail,
+    setEditingEmail,
     settingPassword,
     setSettingPassword,
     deletingAccount,
@@ -217,6 +253,7 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     setShowConfirmPassword,
     handleProfileUpdate,
     handleUsernameUpdate,
+    handleEmailUpdate,
     handlePasswordUpdate,
     handleDeleteAccount,
     handleFileChange,

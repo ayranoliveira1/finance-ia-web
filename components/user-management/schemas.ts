@@ -13,6 +13,15 @@ export const usernameFormSchema = z.object({
 
 export type UsernameFormValues = z.infer<typeof usernameFormSchema>
 
+export const emailFormSchema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Email inválido' })
+    .max(50, { message: 'Email deve ter no máximo 50 caracteres' }),
+})
+
+export type EmailFormValues = z.infer<typeof emailFormSchema>
+
 export const passwordFormSchema = z
   .object({
     currentPassword: z
