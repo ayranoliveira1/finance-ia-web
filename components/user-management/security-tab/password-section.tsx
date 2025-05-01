@@ -212,9 +212,8 @@ export function PasswordSection() {
                   </Button>
                   <Button
                     type="submit"
-                    variant="default"
                     size="sm"
-                    className="text-xs h-8 bg-gray-700 hover:bg-gray-600"
+                    className="text-xs h-8 bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
                     disabled={isLoading}
                   >
                     {isLoading ? 'Salvando...' : 'Salvar'}

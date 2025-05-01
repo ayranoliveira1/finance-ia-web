@@ -13,6 +13,7 @@ import { FormEditCard } from '../shared/form-edit-card'
  */
 export function ProfileSection() {
   const {
+    user,
     userData,
     editingProfile,
     setEditingProfile,
@@ -37,7 +38,7 @@ export function ProfileSection() {
             </AvatarFallback>
           )}
         </Avatar>
-        <span>{userData.username}</span>
+        <span>{user?.name}</span>
       </div>
 
       {!editingProfile && (

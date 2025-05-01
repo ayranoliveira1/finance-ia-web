@@ -22,7 +22,7 @@ import { FormEditCard } from '../shared/form-edit-card'
  */
 export function UsernameSection() {
   const {
-    userData,
+    user,
     editingUsername,
     setEditingUsername,
     handleUsernameUpdate,
@@ -33,7 +33,7 @@ export function UsernameSection() {
   const form = useForm<UsernameFormValues>({
     resolver: zodResolver(usernameFormSchema),
     defaultValues: {
-      username: userData.username,
+      username: user?.name,
     },
   })
 
@@ -46,7 +46,7 @@ export function UsernameSection() {
     <div className="flex items-center justify-between py-4 border-b border-gray-800 relative">
       <div>
         <h4 className="text-sm font-medium mb-2">Username</h4>
-        <p className="text-sm">{userData.username}</p>
+        <p className="text-sm">{user?.name}</p>
       </div>
 
       {!editingUsername && (
@@ -103,9 +103,8 @@ export function UsernameSection() {
                   </Button>
                   <Button
                     type="submit"
-                    variant="default"
                     size="sm"
-                    className="text-xs h-8 bg-gray-700 hover:bg-gray-600"
+                    className="text-xs h-8 bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
                     disabled={isLoading}
                   >
                     {isLoading ? 'Salvando...' : 'Salvar'}
