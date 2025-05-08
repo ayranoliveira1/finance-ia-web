@@ -4,6 +4,7 @@ import './globals.css'
 import { Toaster } from 'sonner'
 import AuthProvider from '@/providers/auth'
 import QueryProvider from '@/providers/query-provider'
+import { TokenWatcher } from '@/auth/token-watcher'
 
 const mulish = Mulish({
   subsets: ['latin-ext'],
@@ -25,6 +26,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex h-full flex-col lg:overflow-hidden">
             <QueryProvider>{children}</QueryProvider>
+            <TokenWatcher />
 
             <Toaster />
           </div>
