@@ -7,7 +7,7 @@ import {
 import SummaryCard from './summary-card'
 
 interface SummaryCardsProps {
-  balance: number
+  balanc: number
   depositTotal: number
   investmentTotal: number
   expensesTotal: number
@@ -15,7 +15,7 @@ interface SummaryCardsProps {
 }
 
 const SummaryCards = async ({
-  balance,
+  balanc,
   depositTotal,
   investmentTotal,
   expensesTotal,
@@ -27,11 +27,11 @@ const SummaryCards = async ({
         userCanAddTransaction={userCanAddTransaction}
         icon={<WalletIcon size={18} />}
         title="Saldo"
-        amount={balance}
+        amount={balanc}
         size="large"
       />
 
-      <div className="grid grid-cols-[1.4fr,1fr,1fr] gap-6">
+      <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-6">
         <SummaryCard
           icon={<PiggyBankIcon size={16} />}
           title="Investido"
