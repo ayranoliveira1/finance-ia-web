@@ -6,6 +6,7 @@ import Header from '@/components/header'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
+import { getCurrentMonthTransactions } from '@/http/get-current-month-transactions'
 
 const SubscriptionPage = async () => {
   const session = await getServerSession(authOptions)
@@ -13,11 +14,14 @@ const SubscriptionPage = async () => {
   if (!session) {
     redirect('/login')
   }
+
+  const accessToken = session.accessToken
   const user = session.user
 
-  const hashPriemiumPlan = user?.subscriptionPlan === 'PREMIUM'
+  const hasPremiumPlan = user?.subscriptionPlan === 'PREMIUM'
 
-  const currentMonthTransactions = true
+  const currentMonthTransactions =
+    await getCurrentMonthTransactions(accessToken)
 
   return (
     <>
@@ -28,7 +32,7 @@ const SubscriptionPage = async () => {
         <div className="flex flex-col gap-6 lg:flex-row">
           <Card className="max-w-[450px] lg:min-w-[450px] bg-transparent ">
             <CardHeader className="relative border-b border-solid py-8">
-              {!hashPriemiumPlan && (
+              {!hasPremiumPlan && (
                 <Badge className="absolute left-4 top-12 bg-[#55B02E]/10 text-[#55B02E]">
                   Ativo
                 </Badge>
@@ -49,7 +53,8 @@ const SubscriptionPage = async () => {
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
                 <p>
-                  Apenas 10 transações por mês ({currentMonthTransactions}/10)
+                  Apenas 10 transações por mês ({currentMonthTransactions.count}
+                  /10)
                 </p>
               </div>
 
@@ -62,7 +67,7 @@ const SubscriptionPage = async () => {
 
           <Card className="max-w-[450px] lg:min-w-[450px] bg-transparent">
             <CardHeader className="relative border-b border-solid py-8">
-              {hashPriemiumPlan && (
+              {hasPremiumPlan && (
                 <Badge className="absolute left-4 top-12 bg-[#55B02E]/10 text-[#55B02E]">
                   Ativo
                 </Badge>

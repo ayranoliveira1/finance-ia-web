@@ -6,9 +6,9 @@ import { transactionColumns } from './_columns'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
 import { redirect } from 'next/navigation'
+import { canUserAddTransaction } from '@/lib/can-user-add-transactions'
 
 const TransactionsPage = async () => {
-  const userCanAddTransaction = true
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -16,6 +16,8 @@ const TransactionsPage = async () => {
   }
 
   const accessToken = session.accessToken
+
+  const userCanAddTransaction = await canUserAddTransaction()
 
   return (
     <>
