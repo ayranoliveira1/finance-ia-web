@@ -1,8 +1,5 @@
 import { redirect } from 'next/navigation'
-// import TimeSelect from './_components/time-select'
 import { isMatch } from 'date-fns'
-// import ExpensePerCategory from './_components/expenses-per-category'
-// import LastTransactions from './_components/last-transactions'
 import { Suspense } from 'react'
 import LastTransactionSkeleton from './components/skeleton/last-tranasaction-skeleton'
 import Header from '@/components/header'
@@ -14,6 +11,8 @@ import TransactionsPieChart from './components/transactions-pie-chart'
 import ExpensePerCategory from './components/expenses-per-category'
 import LastTransactions from './components/last-transactions'
 import TimeSelect from './components/time-select'
+import { canUserAddTransaction } from '@/lib/can-user-add-transactions'
+import AiReportButton from './components/ai-report-button'
 
 interface HomePros {
   searchParams: Promise<{ [key: string]: string }>
@@ -40,7 +39,9 @@ const Home = async ({ searchParams }: HomePros) => {
 
   const dashboard = await getDashboard(accessToken, month, year)
 
-  // const userCanAddTransaction = await canUserAddTransaction();
+  const userCanAddTransaction = await canUserAddTransaction()
+
+  const hasPremiumPlan = session.user.subscriptionPlan === 'PREMIUM'
 
   return (
     <>
@@ -51,20 +52,21 @@ const Home = async ({ searchParams }: HomePros) => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
 
           <div className="flex items-center gap-5">
-            {/* <AiReportButton
-              hasPremiumPlan={
-                (await user).publicMetadata.subscriptionPlan === 'premium'
-              }
-              year={year}
-              month={month}
-            /> */}
+            <AiReportButton
+              hasPremiumPlan={hasPremiumPlan}
+              // year={year}
+              // month={month}
+            />
             <TimeSelect />
           </div>
         </div>
 
         <div className="grid grid-cols-[2fr_1fr] gap-6 overflow-hidden h-full">
           <div className="flex flex-col gap-6 overflow-hidden h-full">
-            <SummaryCards userCanAddTransaction={true} {...dashboard} />
+            <SummaryCards
+              userCanAddTransaction={userCanAddTransaction}
+              {...dashboard}
+            />
 
             <div className="grid grid-cols-3 grid-rows-1 gap-6 overflow-hidden h-full">
               <TransactionsPieChart {...dashboard} />
