@@ -44,7 +44,7 @@ const LastTransactions = async ({
       <CardHeader className="flex items-center justify-between h-full">
         <CardTitle className="font-bol">Últimas transações</CardTitle>
         <Button asChild variant="outline" className="rounded-full font-bold">
-          <Link href="/transactions">Ver mais</Link>
+          <Link href="/admin/transactions">Ver mais</Link>
         </Button>
       </CardHeader>
 
