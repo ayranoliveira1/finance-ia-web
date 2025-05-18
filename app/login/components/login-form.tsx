@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
+import Link from 'next/link'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -119,6 +120,13 @@ export function LoginForm() {
             </div>
           )}
         </Button>
+
+        <p className="flex items-center justify-center gap-1 text-sm text-gray-400">
+          Não possui conta?
+          <Link href="/register" className="text-green-500 hover:underline">
+            Cadastre-se
+          </Link>
+        </p>
 
         {error && (
           <div className="my-4 p-2 bg-red-100 text-red-700 rounded">
