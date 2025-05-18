@@ -105,7 +105,6 @@ const UpsertTransactionDialog = ({
 
   const queryClient = useQueryClient()
 
-  // Função para enviar os dados do formulário
   const onSubmit = async (data: FormTransactionType) => {
     try {
       if (isUpdate) {
@@ -117,9 +116,23 @@ const UpsertTransactionDialog = ({
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       setDialogIsOpen(false)
       form.reset()
-      toast.success('Transação salva com sucesso!')
+      toast.success('Transação salva com sucesso!', {
+        style: {
+          backgroundColor: '#55B02E',
+          color: '#fff',
+          borderColor: '#438d24',
+        },
+        duration: 2000,
+      })
     } catch (error) {
-      toast.error('Erro ao salvar transação')
+      toast.error('Erro ao salvar transação', {
+        style: {
+          backgroundColor: '#FF0000',
+          color: '#fff',
+          borderColor: '#c40202',
+        },
+        duration: 2000,
+      })
       console.log(error)
     }
   }

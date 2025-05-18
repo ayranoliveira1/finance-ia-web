@@ -38,9 +38,23 @@ const DeleteTransactionButton = ({
       await deleteTransaction(transactionId, accessToken!)
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       console.log('Deleting transaction with ID:', transactionId)
-      toast.success('Transação deletada com sucesso!')
+      toast.success('Transação deletada com sucesso!', {
+        style: {
+          backgroundColor: '#55B02E',
+          color: '#fff',
+          borderColor: '#438d24',
+        },
+        duration: 2000,
+      })
     } catch (error) {
-      toast.error('Erro ao deletar transação!')
+      toast.error('Erro ao deletar transação!', {
+        style: {
+          backgroundColor: '#FF0000',
+          color: '#fff',
+          borderColor: '#c40202',
+        },
+        duration: 2000,
+      })
       console.error(error)
     } finally {
       setIsLoading(false)

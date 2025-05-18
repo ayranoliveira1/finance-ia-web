@@ -134,7 +134,14 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     }
     await update()
 
-    toast.success('Nome de usuário atualizado com sucesso!')
+    toast.success('Nome de usuário atualizado com sucesso!', {
+      style: {
+        backgroundColor: '#55B02E',
+        color: '#fff',
+        borderColor: '#438d24',
+      },
+      duration: 2000,
+    })
     setEditingUsername(false)
     setIsLoading(false)
   }
@@ -161,7 +168,14 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
     }
     await update()
 
-    toast.success('Email atualizado com sucesso!')
+    toast.success('Email atualizado com sucesso!', {
+      style: {
+        backgroundColor: '#55B02E',
+        color: '#fff',
+        borderColor: '#438d24',
+      },
+      duration: 2000,
+    })
     setEditingEmail(false)
     setIsLoading(false)
   }
@@ -190,7 +204,14 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
 
     await update()
 
-    toast.success('Senha atualizada com sucesso!')
+    toast.success('Senha atualizada com sucesso!', {
+      style: {
+        backgroundColor: '#55B02E',
+        color: '#fff',
+        borderColor: '#438d24',
+      },
+      duration: 2000,
+    })
     setSettingPassword(false)
     setIsLoading(false)
   }
@@ -212,7 +233,14 @@ export function UserManagementProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    toast.success('Conta deletada com sucesso!')
+    toast.success('Conta deletada com sucesso!', {
+      style: {
+        backgroundColor: '#55B02E',
+        color: '#fff',
+        borderColor: '#438d24',
+      },
+      duration: 2000,
+    })
     signOut()
 
     setDeletingAccount(false)
