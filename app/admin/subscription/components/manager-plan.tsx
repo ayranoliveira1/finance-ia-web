@@ -27,6 +27,8 @@ import {
 } from '@/components/ui/select'
 import { AlertTriangle, LoaderCircleIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import { cancelPlan } from '@/http/cancel-plan'
+import { useSession } from 'next-auth/react'
 
 interface ManagePlanModalProps {
   isOpen: boolean
@@ -37,16 +39,40 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
   const [activeTab, setActiveTab] = useState('billing')
   const [isUpdating, setIsUpdating] = useState(false)
 
+  const { update } = useSession()
+
   const handleCancelPlan = async () => {
     setIsUpdating(true)
     try {
-      onClose()
-      toast.success('Assinatura cancelada com sucesso')
+      await cancelPlan()
+
+      Promise.resolve(
+        setTimeout(() => {
+          update()
+        }, 1000),
+      )
+
+      toast.success('Assinatura cancelada com sucesso', {
+        style: {
+          backgroundColor: '#55B02E',
+          color: '#fff',
+          borderColor: '#438d24',
+        },
+        duration: 2000,
+      })
     } catch (error) {
-      toast.error('Erro ao cancelar a assinatura')
+      toast.error('Erro ao cancelar a assinatura', {
+        style: {
+          backgroundColor: '#FF0000',
+          color: '#fff',
+          borderColor: '#FF0000',
+        },
+        duration: 2000,
+      })
       console.error(error)
     } finally {
       setIsUpdating(false)
+      onClose()
     }
   }
 
@@ -260,18 +286,11 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
                     <h4 className="font-medium">Informações importantes</h4>
                     <ul className="list-disc list-inside text-sm space-y-1 mt-2 text-muted-foreground">
                       <li>
-                        Sua assinatura permanecerá ativa até o final do seu
-                        período de cobrança atual
+                        Você perderá o acesso a todos os recursos do Premium
+                        imediatamente.
                       </li>
                       <li>
-                        Você perderá o acesso a todos os recursos do Premium{' '}
-                        após essa data
-                      </li>
-                      <li>
-                        Seus dados serão retidos por 30 dias após o cancelamento
-                      </li>
-                      <li>
-                        Você pode se inscrever novamente a qualquer momento
+                        Você pode se inscrever novamente a qualquer momento.
                       </li>
                     </ul>
                   </div>
