@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${mulish.className} dark antialiased`}>
         <AuthProvider>
-          <div className="flex h-full flex-col lg:overflow-hidden">
+          <div className="flex flex-col lg:h-full lg:overflow-hidden">
             <QueryProvider>{children}</QueryProvider>
             <TokenWatcher />
 
