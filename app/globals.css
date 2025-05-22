@@ -123,3 +123,7 @@
     @apply h-full bg-background text-foreground;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}

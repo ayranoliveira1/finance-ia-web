@@ -22,14 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${mulish.className} dark antialiased`}>
+      <body className={`${mulish.className} dark antialiased scroll-smooth`}>
         <AuthProvider>
-          <div className="flex flex-col lg:h-full lg:overflow-hidden">
-            <QueryProvider>{children}</QueryProvider>
-            <TokenWatcher />
+          <QueryProvider>{children}</QueryProvider>
+          <TokenWatcher />
 
-            <Toaster />
-          </div>
+          <Toaster />
         </AuthProvider>
       </body>
     </html>
