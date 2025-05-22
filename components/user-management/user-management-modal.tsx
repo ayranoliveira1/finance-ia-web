@@ -14,7 +14,7 @@ export function UserManagementModal() {
     <div className="w-full">
       <div
         onClick={() => setIsOpen(true)}
-        className="flex gap-4 items-center px-6 border-b shadow-b-sm cursor-pointer py-5 hover:bg-[#100f1a]"
+        className="flex gap-4 items-center lg:px-6 lg:border-b lg:shadow-b-sm cursor-pointer lg:py-5 hover:bg-[#100f1a]"
       >
         <SettingsIcon className="size-4 text-white/80 " />
         <span className="text-sm text-white/80">Gerenciar conta</span>
@@ -22,9 +22,9 @@ export function UserManagementModal() {
 
       <div className="w-screen h-full">
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent className="p-0 lg:min-w-[900px] h-[700px] bg-gray-900 border-gray-800 text-white overflow-hidden">
+          <DialogContent className="p-0 lg:min-w-[900px] h-[600px] lg:h-[700px] bg-gray-900 border-gray-800 text-white lg:overflow-hidden">
             <DialogTitle className="hidden"></DialogTitle>
-            <div className="flex flex-col md:flex-row lg:min-h-[700px] md:h-[600px]">
+            <div className="flex flex-col overflow-y-scroll md:flex-row lg:min-h-[700px] md:h-[600px]">
               {/* Sidebar */}
               <Sidebar />
 

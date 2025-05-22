@@ -26,7 +26,7 @@ const Header = () => {
         position="bottom_center"
         width="xl"
         trigger={
-          <div className="rounded-lg px-3 py-1 bg-transparent flex items-center gap-2 hover:bg-[#100f1a]">
+          <div className="rounded-lg px-3 py-1 bg-transparent items-center gap-2 hover:bg-[#100f1a] hidden lg:flex">
             <span className="text-sm font-semibold text-white">
               {user?.name}
             </span>

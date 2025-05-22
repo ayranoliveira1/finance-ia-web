@@ -47,7 +47,7 @@ const AiReportButton = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-bold rounded-4xl px-10" variant="outline">
+        <Button className="font-bold rounded-4xl px-10 " variant="outline">
           Relatório IA
           <BotIcon />
         </Button>
@@ -76,6 +76,7 @@ const AiReportButton = ({
               <Button
                 onClick={handleGenerateReportClick}
                 disabled={reportIsLoading}
+                className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
               >
                 {reportIsLoading && (
                   <LoaderCircleIcon className="animate-spin" />
