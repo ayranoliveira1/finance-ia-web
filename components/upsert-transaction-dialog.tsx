@@ -144,7 +144,7 @@ const UpsertTransactionDialog = ({
   }, [defaultValues, form])
 
   return (
-    <DialogContent>
+    <DialogContent className="max-w-[90%] lg:max-w-[500px] overflow-y-scroll lg:overflow-hidden max-h-[90vh]">
       <DialogHeader>
         <DialogTitle>
           {isUpdate ? 'Atualizar' : 'Adicionar'} transação

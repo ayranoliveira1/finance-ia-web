@@ -1,67 +1,45 @@
-// "use server";
+'use server'
 
-// import OpenAI from "openai";
-// import { db } from "@/app/_lib/prisma";
-// import { auth, clerkClient } from "@clerk/nextjs/server";
-// import { generateAiReportSchema, GenerateAiReportType } from "./sxhema";
+import { getServerSession } from 'next-auth'
+import { generateAiReportSchema, GenerateAiReportType } from './sxhema'
+import { authOptions } from '@/auth/auth.config'
 
-// export const generateAiReport = async ({
-//    year,
-//    month,
-// }: GenerateAiReportType) => {
-//    generateAiReportSchema.parse({ month, year });
+export const generateAiReport = async ({
+  year,
+  month,
+}: GenerateAiReportType) => {
+  generateAiReportSchema.parse({ month, year })
 
-//    const { userId } = await auth();
-//    if (!userId) {
-//       throw new Error("Unauthorized");
-//    }
+  const session = await getServerSession(authOptions)
 
-//    const user = (await clerkClient()).users.getUser(userId);
-//    if (!user) {
-//       throw new Error("User not found");
-//    }
+  if (!session) {
+    throw new Error('User not authenticated')
+  }
 
-//    const hashPrimiumPlan =
-//       (await user).publicMetadata.subscriptionPlan === "premium";
-//    if (!hashPrimiumPlan) {
-//       throw new Error("You need to be a premium user to generate AI reports");
-//    }
+  const hasPremiumPlan = session.user.subscriptionPlan === 'PREMIUM'
 
-//    const openAi = new OpenAI({
-//       apiKey: process.env.OPENAI_API_KEY,
-//    });
+  if (!hasPremiumPlan) {
+    throw new Error('User does not have a premium plan')
+  }
 
-//    const transactions = await db.transaction.findMany({
-//       where: {
-//          userId,
-//          date: {
-//             gte: new Date(`${year}-${month}-01`),
-//             lt: new Date(`${year}-${month}-31`),
-//          },
-//       },
-//    });
+  const accessToken = session.accessToken
 
-//    const content = `Gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{TIPO}-{VALOR}-{CATEGORIA}. São elas: ${transactions
-//       .map(
-//          (transaction) =>
-//             `${transaction.date.toLocaleDateString("pt-BR")}-${transaction.type}-${transaction.amount}=${transaction.category}`,
-//       )
-//       .join(";")}`;
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/ai-report/?month=${month}&year=${year}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  )
 
-//    const completion = await openAi.chat.completions.create({
-//       model: "gpt-4o-mini",
-//       messages: [
-//          {
-//             role: "system",
-//             content:
-//                "Você é um especialista em gestão e organização de finanças pessoais. Você ajuda as pessoas a organizarem melhor as suas finanças.",
-//          },
-//          {
-//             role: "user",
-//             content,
-//          },
-//       ],
-//    });
+  const data = await response.text()
 
-//    return completion.choices[0].message.content;
-// };
+  if (!response.ok) {
+    return data
+  }
+
+  return data
+}

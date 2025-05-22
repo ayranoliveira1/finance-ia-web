@@ -32,7 +32,7 @@ const AddTransactionButton = ({
             <DialogTrigger asChild>
               <Button
                 disabled={!userCanAddTransaction}
-                className="rounded-full font-bold bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
+                className="rounded-full font-bold bg-[#55B02E] text-sm lg:text-base hover:bg-[#55B02E]/60 text-white"
               >
                 Adicionar transações
                 <ArrowDownUpIcon />

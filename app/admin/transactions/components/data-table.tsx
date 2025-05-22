@@ -174,10 +174,9 @@ export function DataTable({ columns, accessToken }: DataTableProps) {
           }}
           className="max-w-sm"
         />
-
-        {/* <ProductModal /> */}
       </div>
-      <div className="rounded-md border relative overflow-hidden">
+
+      <div className="rounded-md border relative">
         <div className="max-h-[700px] overflow-y-auto">
           <Table>
             <TableHeader>

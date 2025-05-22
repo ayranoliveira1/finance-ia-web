@@ -1,6 +1,5 @@
 import AddTransactionButton from '@/components/add-transaction-button'
 import Header from '@/components/header'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { DataTable } from './components/data-table'
 import { transactionColumns } from './_columns'
 import { getServerSession } from 'next-auth'
@@ -25,14 +24,12 @@ const TransactionsPage = async () => {
 
       <div className="flex flex-col space-y-4 overflow-hidden py-6 px-5">
         <div className="flex w-full items-center justify-between px-1">
-          <h1 className="text-2xl font-bold">Transações</h1>
+          <h1 className="lg:text-2xl text-xl font-bold">Transações</h1>
 
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
 
-        <ScrollArea className="h-full">
-          <DataTable accessToken={accessToken} columns={transactionColumns} />
-        </ScrollArea>
+        <DataTable accessToken={accessToken} columns={transactionColumns} />
       </div>
     </>
   )
