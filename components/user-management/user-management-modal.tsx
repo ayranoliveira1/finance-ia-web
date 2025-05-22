@@ -24,7 +24,7 @@ export function UserManagementModal() {
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogContent className="p-0 lg:min-w-[900px] h-[600px] lg:h-[700px] bg-gray-900 border-gray-800 text-white lg:overflow-hidden">
             <DialogTitle className="hidden"></DialogTitle>
-            <div className="flex flex-col overflow-y-scroll md:flex-row lg:min-h-[700px] md:h-[600px]">
+            <div className="flex flex-col overflow-y-scroll lg:overflow-auto md:flex-row lg:min-h-[700px] md:h-[600px]">
               {/* Sidebar */}
               <Sidebar />
 

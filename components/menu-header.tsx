@@ -4,7 +4,6 @@ import { LogOutIcon, MenuIcon, UserIcon } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTrigger,
@@ -33,20 +32,18 @@ const MenuHeader = () => {
             <Image src="/logo.svg" alt="Finance Ai" width={123} height={39} />
           </SheetHeader>
 
-          <SheetDescription className="flex flex-col gap-4 px-2">
-            {user && (
-              <div className="flex gap-3 pt-1 items-center px-2">
-                <div className="flex items-center gap-3 ">
-                  <Avatar>
-                    <AvatarImage src={user?.image || ''} alt={user?.name} />
-                    <AvatarFallback>
-                      <UserIcon className="size-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="font-bold text-white">{user.name}</span>
-                </div>
+          <div className="flex flex-col gap-4 px-2">
+            <div className="flex gap-3 pt-1 items-center px-2">
+              <div className="flex items-center gap-3 ">
+                <Avatar>
+                  <AvatarImage src={user?.image || ''} alt={user?.name} />
+                  <AvatarFallback>
+                    <UserIcon className="size-4" />
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-bold text-white">{user?.name}</span>
               </div>
-            )}
+            </div>
 
             <Link
               href="/admin"
@@ -78,7 +75,7 @@ const MenuHeader = () => {
             >
               Assinaturas
             </Link>
-          </SheetDescription>
+          </div>
 
           <SheetFooter>
             <UserManagement />
