@@ -85,7 +85,7 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="max-w-[90%] sm:max-w-[600px] max-h-[90%] overflow-y-scroll lg:overflow-hidden">
         <DialogHeader>
           <DialogTitle>Gerencie seu plano Premium</DialogTitle>
           <DialogDescription>
@@ -99,7 +99,7 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
           onValueChange={setActiveTab}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-1">
             {/* <TabsTrigger
               className="text-black data-[state=active]:border-none data-[state=active]:bg-white data-[state=active]:text-black"
               value="billing"
@@ -113,7 +113,7 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
               Payment Method
             </TabsTrigger> */}
             <TabsTrigger
-              className="text-black data-[state=active]:border-none data-[state=active]:bg-white data-[state=active]:text-black"
+              className="text-black data-[state=active]:border-none lg:text-sm text-xs data-[state=active]:bg-white data-[state=active]:text-black"
               value="cancel"
             >
               Cancelar Assinatura
@@ -268,10 +268,10 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
             </Card>
           </TabsContent> */}
 
-          <TabsContent value="cancel" className="space-y-4">
-            <Card>
+          <TabsContent value="cancel" className="space-y-4 w-full max-w-full">
+            <Card className="w-full max-w-full">
               <CardHeader>
-                <CardTitle className="text-red-500">
+                <CardTitle className="text-red-500 break-words">
                   Cancele sua assinatura
                 </CardTitle>
                 <CardDescription>
@@ -279,10 +279,10 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
                   abaixo antes de cancelar.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start space-x-4 p-4 bg-amber-50 dark:bg-amber-950 rounded-md">
-                  <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
-                  <div>
+              <CardContent className="space-y-4 w-full max-w-full">
+                <div className="flex flex-col sm:flex-row items-start sm:space-x-4 p-4 bg-amber-50 dark:bg-amber-950 rounded-md">
+                  <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                  <div className="mt-2 sm:mt-0">
                     <h4 className="font-medium">Informações importantes</h4>
                     <ul className="list-disc list-inside text-sm space-y-1 mt-2 text-muted-foreground">
                       <li>
@@ -295,14 +295,13 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
                     </ul>
                   </div>
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="cancel-reason">
                     Motivo do cancelamento (opcional)
                   </Label>
                   <Select>
                     <SelectTrigger id="cancel-reason">
-                      <SelectValue placeholder="Select a reason" />
+                      <SelectValue placeholder="Selecione um motivo" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="too-expensive">Muito caro</SelectItem>
@@ -320,15 +319,21 @@ export function ManagePlanModal({ isOpen, onClose }: ManagePlanModalProps) {
                   </Select>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="ghost" onClick={onClose}>
+              <CardFooter className="flex flex-col sm:flex-row justify-between w-full gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  className="w-full sm:w-auto"
+                >
                   Manter minha assinatura
                 </Button>
                 <Button
                   onClick={handleCancelPlan}
-                  className="bg-red-500 hover:bg-red-600 text-white font-semibold"
+                  className="bg-red-500 hover:bg-red-600 text-white font-semibold w-full sm:w-auto"
                 >
-                  {isUpdating && <LoaderCircleIcon className="animate-spin" />}
+                  {isUpdating && (
+                    <LoaderCircleIcon className="animate-spin mr-2" />
+                  )}
                   Cancelar assinatura
                 </Button>
               </CardFooter>
