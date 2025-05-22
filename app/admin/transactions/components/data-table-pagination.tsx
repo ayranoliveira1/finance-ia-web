@@ -17,12 +17,12 @@ export function DataTablePagination<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between p-2">
-      <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex-1 lg:text-sm text-[10px] text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} de{' '}
         {table.getFilteredRowModel().rows.length} linha(s) selecionada(s).
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        <div className="flex w-[100px] items-center justify-center lg:text-sm text-xs font-medium">
           Page {table.getState().pagination.pageIndex + 1} de{' '}
           {table.getPageCount()}
         </div>
