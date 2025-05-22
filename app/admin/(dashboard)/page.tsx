@@ -48,14 +48,14 @@ const Home = async ({ searchParams }: HomePros) => {
       <Header />
 
       <div className="flex flex-col space-y-6 lg:overflow-hidden p-6 h-full">
-        <div className="flex items-center flex-col lg:flex-row justify-between">
+        <div className="flex lg:items-center flex-col lg:flex-row justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
 
-          <div className="flex items-center lg:flex-row flex-col gap-5">
+          <div className="flex lg:items-center lg:flex-row flex-col gap-5 mt-5 lg:mt-10">
             <AiReportButton
               hasPremiumPlan={hasPremiumPlan}
-              // year={year}
-              // month={month}
+              year={year}
+              month={month}
             />
             <TimeSelect />
           </div>

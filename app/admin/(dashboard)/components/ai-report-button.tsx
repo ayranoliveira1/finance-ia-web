@@ -12,27 +12,31 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { BotIcon, LoaderCircleIcon } from 'lucide-react'
-// import { generateAiReport } from '../_actions/generate-ai-report'
 import { ScrollArea } from '@/components/ui/scroll-area'
-// import Markdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import { useState } from 'react'
 import Link from 'next/link'
+import { generateAiReport } from '../_actions/generate-ai-report'
 
 interface AiReportButtonProps {
-  // year: string
-  // month: string
+  year: string
+  month: string
   hasPremiumPlan: boolean
 }
 
-const AiReportButton = ({ hasPremiumPlan }: AiReportButtonProps) => {
-  //   const [report, setReport] = useState<string | null>(null)
+const AiReportButton = ({
+  year,
+  month,
+  hasPremiumPlan,
+}: AiReportButtonProps) => {
+  const [report, setReport] = useState<string | null>(null)
   const [reportIsLoading, setReportIsLoading] = useState<boolean>(false)
 
   const handleGenerateReportClick = async () => {
     try {
       setReportIsLoading(true)
-      // const aiReport = await generateAiReport({ year, month })
-      // setReport(aiReport)
+      const aiReport = await generateAiReport({ year, month })
+      setReport(aiReport)
     } catch (error) {
       console.log(error)
     } finally {
@@ -43,13 +47,13 @@ const AiReportButton = ({ hasPremiumPlan }: AiReportButtonProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-bold" variant="ghost">
+        <Button className="font-bold rounded-4xl px-10" variant="outline">
           Relatório IA
           <BotIcon />
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[600px] overflow-hidden">
+      <DialogContent className="lg:max-w-[600px] overflow-hidden max-w-[90%]">
         {hasPremiumPlan ? (
           <>
             <DialogHeader>
@@ -61,7 +65,7 @@ const AiReportButton = ({ hasPremiumPlan }: AiReportButtonProps) => {
             </DialogHeader>
 
             <ScrollArea className="prose max-h-[450px] text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">
-              {/* <Markdown>{report}</Markdown> */}
+              <Markdown>{report}</Markdown>
             </ScrollArea>
 
             <DialogFooter>
