@@ -22,29 +22,32 @@ export function Navbar() {
   const { user } = useAuth()
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = `#${entry.target.id}`
-            setIsActiveSection(id)
-          }
-        })
-      },
-      {
-        threshold: 0.6,
-      },
-    )
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2
 
-    sections.forEach((section) => {
-      const id = section.replace('#', '')
-      const element = document.getElementById(id)
-      if (element) {
-        observer.observe(element)
+      let currentSection = '#top'
+
+      for (const sectionId of sections) {
+        const el = document.querySelector(sectionId)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          const offsetTop = window.scrollY + rect.top
+
+          if (scrollPosition >= offsetTop) {
+            currentSection = sectionId
+          }
+        }
       }
+
+      setIsActiveSection(currentSection)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    requestAnimationFrame(() => {
+      handleScroll()
     })
 
-    return () => observer.disconnect()
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   console.log(isActiveSection)
@@ -89,24 +92,28 @@ export function Navbar() {
         <nav className="hidden md:flex items-center space-x-8">
           <Link
             href="#top"
+            aria-current={isActiveSection === '#top' ? 'true' : undefined}
             className={`transition-colors ${isActiveSection === '#top' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Início
           </Link>
           <Link
             href="#features"
+            aria-current={isActiveSection === '#features' ? 'true' : undefined}
             className={`transition-colors ${isActiveSection === '#features' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Recursos
           </Link>
           <Link
             href="#dashboard"
+            aria-current={isActiveSection === '#dashboard' ? 'true' : undefined}
             className={`transition-colors ${isActiveSection === '#dashboard' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Dashboard
           </Link>
           <Link
             href="#pricing"
+            aria-current={isActiveSection === '#pricing' ? 'true' : undefined}
             className={`transition-colors ${isActiveSection === '#pricing' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Preços
