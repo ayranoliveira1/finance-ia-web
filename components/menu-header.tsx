@@ -1,6 +1,6 @@
 'use client'
 
-import { LogOutIcon, MenuIcon, UserIcon } from 'lucide-react'
+import { LogOutIcon, MenuIcon, TouchpadIcon, UserIcon } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -78,6 +78,14 @@ const MenuHeader = () => {
           </div>
 
           <SheetFooter>
+            <Link
+              href="/"
+              className="flex gap-4 items-center py-5 hover:bg-[#100f1a] cursor-pointer lg:border-b lg:shadow-b-sm"
+            >
+              <TouchpadIcon className="size-4 text-white/80 " />
+              <span className="text-sm text-white/80">Web Site</span>
+            </Link>
+
             <UserManagement />
 
             <div
