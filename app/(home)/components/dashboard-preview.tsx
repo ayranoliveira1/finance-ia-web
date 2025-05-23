@@ -10,6 +10,7 @@ import {
   LineChart,
   PieChart,
 } from 'lucide-react'
+import Link from 'next/link'
 
 export function DashboardPreview() {
   const ref = useRef(null)
@@ -78,9 +79,11 @@ export function DashboardPreview() {
               ))}
             </ul>
 
-            <Button className="group">
-              Explorar recursos do dashboard
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Button className="group" asChild>
+              <Link href="/register">
+                Explorar recursos do dashboard
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
           </motion.div>
 
