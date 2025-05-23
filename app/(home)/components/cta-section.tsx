@@ -31,7 +31,7 @@ export function CtaSection() {
           <div className="flex justify-center">
             <Button
               asChild
-              className="bg-green-500 hover:bg-green-600 text-black font-medium px-8 py-6 text-lg"
+              className="bg-green-500 hover:bg-green-600 text-black font-medium px-8 py-6 text-base"
             >
               <Link href={'/register'}>
                 Cadastre-se Agora
