@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Check, CreditCard } from 'lucide-react'
+import Link from 'next/link'
+import { useAuth } from '@/auth/useAuth'
 
 export function PricingSection() {
   const plans = [
@@ -12,25 +14,23 @@ export function PricingSection() {
       description: 'Controle financeiro básico para indivíduos',
       price: 0,
       features: [
+        '10 transações por mês',
         'Rastreamento de despesas',
         'Orçamento básico',
-        'Até 2 contas',
         'Histórico de transações de 30 dias',
         'Suporte por e-mail',
       ],
       cta: 'Começar Agora',
       popular: false,
+      link: '/register',
     },
     {
       name: 'Premium',
       description: 'Recursos avançados para gestão financeira pessoal',
-      price: 20.0,
+      price: 9.0,
       features: [
         'Tudo do plano Gratuito',
-        'Contas ilimitadas',
-        'Categorias personalizadas',
         'Histórico de transações ilimitado',
-        'Rastreamento de investimentos',
         'Metas financeiras',
         'Suporte prioritário',
         'Relatórios avançados',
@@ -38,8 +38,11 @@ export function PricingSection() {
       ],
       cta: 'Assinar Agora',
       popular: true,
+      link: '/register',
     },
   ]
+
+  const { user } = useAuth()
 
   return (
     <section
@@ -126,15 +129,25 @@ export function PricingSection() {
                 </CardContent>
 
                 <CardFooter className="mt-auto pt-4">
-                  <Button
-                    className={`w-full ${
-                      plan.popular
-                        ? 'bg-green-500 hover:bg-green-600 text-black'
-                        : 'bg-[#050A14] hover:bg-[#0F172A]'
-                    }`}
-                  >
-                    {plan.cta}
-                  </Button>
+                  {user ? (
+                    <Button
+                      asChild
+                      className={
+                        'w-full bg-green-500 hover:bg-green-600 text-black'
+                      }
+                    >
+                      <Link href="/admin">Acessar</Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      className={
+                        'w-full bg-green-500 hover:bg-green-600 text-black'
+                      }
+                    >
+                      <Link href={plan.link}>{plan.cta}</Link>
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             </motion.div>
