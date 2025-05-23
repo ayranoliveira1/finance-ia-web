@@ -7,9 +7,10 @@ import { useAuth } from '@/auth/useAuth'
 import { signOut } from 'next-auth/react'
 import { Avatar, AvatarFallback } from './ui/avatar'
 import { AvatarImage } from '@radix-ui/react-avatar'
-import { LogOutIcon, UserIcon } from 'lucide-react'
+import { LogOutIcon, TouchpadIcon, UserIcon } from 'lucide-react'
 import ActionModal from './action-modal'
 import UserManagement from './user-management'
+import Link from 'next/link'
 
 const Header = () => {
   const { user } = useAuth()
@@ -63,6 +64,14 @@ const Header = () => {
             </div>
 
             <UserManagement />
+
+            <Link
+              href="/"
+              className="flex gap-4 items-center px-6 py-5 hover:bg-[#100f1a] cursor-pointer lg:border-b lg:shadow-b-sm"
+            >
+              <TouchpadIcon className="size-4 text-white/80 " />
+              <span className="text-sm text-white/80">Web Site</span>
+            </Link>
 
             <div
               onClick={() => signOut({ callbackUrl: '/login' })}
