@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { HouseIcon, LogOutIcon, Menu, UserIcon, X } from 'lucide-react'
@@ -8,71 +8,20 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { useAuth } from '@/auth/useAuth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import ActionModal from '@/components/action-modal'
 import UserManagement from '@/components/user-management'
 import { signOut } from 'next-auth/react'
+import { useBodyOverflow, useScrollSections } from '@/hooks/use-scroll'
+import ActionModal from '@/components/action-modal'
 
 const sections = ['#top', '#features', '#dashboard', '#pricing']
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
+  const { activeSection, isScrolled } = useScrollSections(sections)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isActiveSection, setIsActiveSection] = useState('#top')
 
   const { user } = useAuth()
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2
-
-      let currentSection = '#top'
-
-      for (const sectionId of sections) {
-        const el = document.querySelector(sectionId)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          const offsetTop = window.scrollY + rect.top
-
-          if (scrollPosition >= offsetTop) {
-            currentSection = sectionId
-          }
-        }
-      }
-
-      setIsActiveSection(currentSection)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    requestAnimationFrame(() => {
-      handleScroll()
-    })
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  console.log(isActiveSection)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add('overflow-hidden')
-    } else {
-      document.body.classList.remove('overflow-hidden')
-    }
-
-    return () => {
-      document.body.classList.remove('overflow-hidden')
-    }
-  }, [isMobileMenuOpen])
+  useBodyOverflow(isMobileMenuOpen)
 
   return (
     <header
@@ -90,40 +39,28 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link
-            href="#top"
-            aria-current={isActiveSection === '#top' ? 'true' : undefined}
-            className={`transition-colors ${isActiveSection === '#top' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
-          >
-            Início
-          </Link>
-          <Link
-            href="#features"
-            aria-current={isActiveSection === '#features' ? 'true' : undefined}
-            className={`transition-colors ${isActiveSection === '#features' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
-          >
-            Recursos
-          </Link>
-          <Link
-            href="#dashboard"
-            aria-current={isActiveSection === '#dashboard' ? 'true' : undefined}
-            className={`transition-colors ${isActiveSection === '#dashboard' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="#pricing"
-            aria-current={isActiveSection === '#pricing' ? 'true' : undefined}
-            className={`transition-colors ${isActiveSection === '#pricing' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
-          >
-            Preços
-          </Link>
-          {/* <Link
-            href="#testimonials"
-            className="text-gray-300 hover:text-green-400 transition-colors"
-          >
-            Depoimentos
-          </Link> */}
+          {sections.map((sectionId) => {
+            const labelMap: Record<string, string> = {
+              '#top': 'Início',
+              '#features': 'Recursos',
+              '#dashboard': 'Dashboard',
+              '#pricing': 'Preços',
+            }
+            return (
+              <Link
+                key={sectionId}
+                href={sectionId}
+                aria-current={activeSection === sectionId ? 'true' : undefined}
+                className={`transition-colors ${
+                  activeSection === sectionId
+                    ? 'text-green-400'
+                    : 'text-gray-300 hover:text-green-400 '
+                }`}
+              >
+                {labelMap[sectionId]}
+              </Link>
+            )
+          })}
         </nav>
 
         {user ? (
@@ -207,7 +144,8 @@ export function Navbar() {
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -217,34 +155,25 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-[#050A14]/95 backdrop-blur-md p-4 shadow-lg border-t border-gray-800 animate-in slide-in-from-top">
           <nav className="flex flex-col space-y-4 py-4">
-            <Link
-              href="#features"
-              className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Recursos
-            </Link>
-            <Link
-              href="#dashboard"
-              className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Preços
-            </Link>
-            {/* <Link
-              href="#testimonials"
-              className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Depoimentos
-            </Link> */}
+            {sections
+              .filter((s) => s !== '#top') // exclui "#top" do menu mobile
+              .map((sectionId) => (
+                <Link
+                  key={sectionId}
+                  href={sectionId}
+                  className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {
+                    {
+                      '#features': 'Recursos',
+                      '#dashboard': 'Dashboard',
+                      '#pricing': 'Preços',
+                    }[sectionId]
+                  }
+                </Link>
+              ))}
+
             {user ? (
               <>
                 <div className="flex gap-3 items-center px-4 pt-4 border-t">
