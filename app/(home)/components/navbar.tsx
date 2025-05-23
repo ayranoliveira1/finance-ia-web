@@ -153,7 +153,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[#050A14]/95 backdrop-blur-md p-4 shadow-lg border-t border-gray-800 animate-in slide-in-from-top">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-[#050A14]/95 backdrop-blur-md p-4 shadow-lg border-t border-gray-800 animate-in slide-in-from-top border-b">
           <nav className="flex flex-col space-y-4 py-4">
             {sections
               .filter((s) => s !== '#top') // exclui "#top" do menu mobile
@@ -195,6 +195,10 @@ export function Navbar() {
                   <HouseIcon className="size-4 text-white/80 " />
                   <span className="text-sm text-white/80">Dashboard</span>
                 </Link>
+
+                <div className="px-4">
+                  <UserManagement />
+                </div>
 
                 <div
                   onClick={() => signOut({ callbackUrl: '/' })}
