@@ -12,11 +12,42 @@ import ActionModal from '@/components/action-modal'
 import UserManagement from '@/components/user-management'
 import { signOut } from 'next-auth/react'
 
+const sections = ['#top', '#features', '#dashboard', '#pricing']
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isActiveSection, setIsActiveSection] = useState('#top')
 
   const { user } = useAuth()
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = `#${entry.target.id}`
+            setIsActiveSection(id)
+          }
+        })
+      },
+      {
+        threshold: 0.6,
+      },
+    )
+
+    sections.forEach((section) => {
+      const id = section.replace('#', '')
+      const element = document.getElementById(id)
+      if (element) {
+        observer.observe(element)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  console.log(isActiveSection)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,20 +88,26 @@ export function Navbar() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link
+            href="#top"
+            className={`transition-colors ${isActiveSection === '#top' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
+          >
+            Início
+          </Link>
+          <Link
             href="#features"
-            className="text-gray-300 hover:text-green-400 transition-colors"
+            className={`transition-colors ${isActiveSection === '#features' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Recursos
           </Link>
           <Link
             href="#dashboard"
-            className="text-gray-300 hover:text-green-400 transition-colors"
+            className={`transition-colors ${isActiveSection === '#dashboard' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Dashboard
           </Link>
           <Link
             href="#pricing"
-            className="text-gray-300 hover:text-green-400 transition-colors"
+            className={`transition-colors ${isActiveSection === '#pricing' ? 'text-green-400' : 'text-gray-300 hover:text-green-400 '}`}
           >
             Preços
           </Link>

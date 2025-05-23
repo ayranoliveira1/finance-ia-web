@@ -15,7 +15,10 @@ export function HeroSection() {
   if (!mounted) return null
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center w-full">
+    <section
+      id="top"
+      className="relative min-h-screen flex flex-col items-center w-full"
+    >
       <div className="flex-1 container flex flex-col items-center justify-center pt-20 pb-16 md:pb-24">
         <motion.div
           className="text-center max-w-4xl mx-auto px-4"
