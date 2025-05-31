@@ -47,9 +47,9 @@ const MenuHeader = () => {
 
             <Link
               href="/admin"
-              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
+              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-[#55B02E] ${
                 pathname === '/admin'
-                  ? 'bg-gray-700/20 font-bold text-primary'
+                  ? 'bg-gray-700/20 font-bold text-[#55B02E]'
                   : 'text-muted-foreground'
               }`}
             >
@@ -57,9 +57,9 @@ const MenuHeader = () => {
             </Link>
             <Link
               href="/admin/transactions"
-              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
+              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-[#55B02E] ${
                 pathname === '/admin/transactions'
-                  ? 'bg-gray-700/20 font-bold text-primary'
+                  ? 'bg-gray-700/20 font-bold text-[#55B02E]'
                   : 'text-muted-foreground'
               }`}
             >
@@ -67,9 +67,9 @@ const MenuHeader = () => {
             </Link>
             <Link
               href="/admin/subscription"
-              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-primary ${
+              className={`w-full rounded-sm px-3 py-1 text-base font-bold hover:bg-gray-700/20 hover:text-[#55B02E] ${
                 pathname === '/admin/subscription'
-                  ? 'bg-gray-700/20 font-bold text-primary'
+                  ? 'bg-gray-700/20 font-bold text-[#55B02E]'
                   : 'text-muted-foreground'
               }`}
             >

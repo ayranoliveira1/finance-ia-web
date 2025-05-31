@@ -155,24 +155,23 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-[#050A14]/95 backdrop-blur-md p-4 shadow-lg border-t border-gray-800 animate-in slide-in-from-top border-b">
           <nav className="flex flex-col space-y-4 py-4">
-            {sections
-              .filter((s) => s !== '#top') // exclui "#top" do menu mobile
-              .map((sectionId) => (
-                <Link
-                  key={sectionId}
-                  href={sectionId}
-                  className="text-gray-300 hover:text-green-400 transition-colors px-4 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
+            {sections.map((sectionId) => (
+              <Link
+                key={sectionId}
+                href={sectionId}
+                className={`transition-colors px-4 py-2 ${activeSection === sectionId ? 'text-green-400' : 'text-gray-300 hover:text-green-400'}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {
                   {
-                    {
-                      '#features': 'Recursos',
-                      '#dashboard': 'Dashboard',
-                      '#pricing': 'Preços',
-                    }[sectionId]
-                  }
-                </Link>
-              ))}
+                    '#top': 'Início',
+                    '#features': 'Recursos',
+                    '#dashboard': 'Dashboard',
+                    '#pricing': 'Preços',
+                  }[sectionId]
+                }
+              </Link>
+            ))}
 
             {user ? (
               <>
