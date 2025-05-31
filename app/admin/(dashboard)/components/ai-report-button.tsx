@@ -100,7 +100,7 @@ const AiReportButton = ({
               </DialogClose>
 
               <Button>
-                <Link href={'/subscription'}>Assinar plano Premium</Link>
+                <Link href={'/admin/subscription'}>Assinar plano Premium</Link>
               </Button>
             </DialogFooter>
           </>

@@ -4,6 +4,7 @@ import { LoginForm } from './components/login-form'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
+import Link from 'next/link'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -17,12 +18,14 @@ export default async function Home() {
       <div className="container flex flex-1 flex-col items-center justify-center px-4 py-12 md:px-6">
         <div className="mx-auto flex w-full max-w-md flex-col items-center space-y-8">
           <div className="flex items-center space-x-2">
-            <Image
-              src="/logo.svg"
-              alt="Finance.ai Logo"
-              width={130}
-              height={130}
-            />
+            <Link href="/">
+              <Image
+                src="/logo.svg"
+                alt="Finance.ai Logo"
+                width={130}
+                height={130}
+              />
+            </Link>
           </div>
           <div className="w-full space-y-6">
             <div className="space-y-2 text-center">

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { ArrowRight, BarChart2, PieChart, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -43,13 +44,14 @@ export function HeroSection() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Button
+              asChild
               size="lg"
               className="bg-green-500 hover:bg-green-600 text-black font-medium px-8"
             >
-              Comece gratuitamente
+              <Link href="/register">Comece gratuitamente</Link>
             </Button>
             <Button size="lg" variant="outline" className="group">
-              Veja como funciona
+              <Link href="#dashboard">Veja como funciona</Link>
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
