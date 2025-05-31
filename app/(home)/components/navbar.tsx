@@ -214,10 +214,10 @@ export function Navbar() {
                   variant="ghost"
                   className="text-white hover:text-green-400 hover:bg-[#0F172A] w-full justify-start"
                 >
-                  Entrar
+                  <Link href="/login">Entrar</Link>
                 </Button>
                 <Button className="bg-green-500 hover:bg-green-600 text-black font-medium w-full">
-                  Cadastre-se grátis
+                  <Link href="/register">Cadastre-se grátis</Link>
                 </Button>
               </div>
             )}
