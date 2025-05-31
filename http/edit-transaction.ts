@@ -25,6 +25,8 @@ export const editTransaction = async (
   }
 
   revalidatePath('/admin/transactions')
+  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin/subscription')
 
   return 'success'
 }

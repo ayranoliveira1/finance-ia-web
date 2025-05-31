@@ -24,6 +24,8 @@ export const createTransaction = async (
   }
 
   revalidatePath('/admin/transactions')
+  revalidatePath('/admin/dashboard')
+  revalidatePath('/admin/subscription')
 
   return response.json()
 }
