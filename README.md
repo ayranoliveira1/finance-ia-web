@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💼 Financial Management Frontend
 
-## Getting Started
+Frontend moderno para a plataforma de gerenciamento de finanças, construído com foco em performance, acessibilidade e experiência do usuário.
 
-First, run the development server:
+---
+
+## ✨ Tecnologias Utilizadas
+
+- [Next.js](https://nextjs.org/) (App Router)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [ShadCN UI](https://ui.shadcn.com/) – Componentes acessíveis e customizáveis
+- [React Query](https://tanstack.com/query/latest) – Gerenciamento de estado assíncrono e cache de dados
+
+---
+
+## 🚀 Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Clone o repositório
+git clone https://github.com/ayranoliveira1/finance-ia-web.git
+cd nome-do-repo-frontend
+
+# Configure as variáveis de ambiente
+cp .env.example .env
+# Edite o arquivo .env com suas credenciais (API, Next-auth)
+
+# Instale as dependências
+pnpm install
+
+# Inicie o servidor de desenvolvimento
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse em: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌐 Integração com a API
 
-## Learn More
+O frontend se comunica com a [API de gerenciamento de finanças](https://github.com/ayranoliveira1/finance-api.git) utilizando **React Query** para requisições otimizadas e cache inteligente.  
+As URLs da API são configuradas via variáveis de ambiente no arquivo `.env`.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Estrutura do Projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `app/`: Páginas e rotas do App Router
+- `components/`: Componentes reutilizáveis (usando ShadCN UI)
+- `lib/`: Utilitários, clientes de API, e helpers
+- `auth/`: Gerenciamento de estado de login
+- `hooks/`: Custom hooks (incluindo React Query)
+- `http/`: Requisições Server Sides
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Licença
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+---
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas!  
+Sinta-se à vontade para abrir _issues_, enviar _pull requests_ ou sugerir melhorias.
