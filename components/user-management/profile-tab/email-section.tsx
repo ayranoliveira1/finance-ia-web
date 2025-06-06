@@ -56,14 +56,14 @@ export function EmailSection() {
           className="text-xs h-8"
           onClick={() => setEditingEmail(true)}
         >
-          Atualizar enmail
+          Atualizar email
         </Button>
       )}
 
       <AnimatePresence>
         {editingEmail && (
           <FormEditCard
-            title="Atualizar username"
+            title="Atualizar email"
             onCancel={() => setEditingEmail(false)}
             isSubmitting={isLoading}
           >
