@@ -1,3 +1,5 @@
+import { getUser } from '@/http/get-user'
+import { refreshAccessToken } from '@/http/refresh-access-token'
 import NextAuth, { type NextAuthOptions, type User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -38,7 +40,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Authentication data incomplete')
           }
 
-          const dataUser = await fetchUserData(data.token)
+          const dataUser = await getUser(data.token)
 
           return {
             id: dataUser.id,
@@ -66,7 +68,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, account }) {
       if (trigger === 'update') {
         try {
-          const updateUser = await fetchUserData(token.accessToken)
+          const updateUser = await getUser(token.accessToken)
 
           return {
             ...token,
@@ -87,7 +89,7 @@ export const authOptions: NextAuthOptions = {
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-          accessTokenExpires: Date.now() + 30 * 60 * 1000,
+          accessTokenExpires: Date.now() + 20 * 60 * 1000,
           user: {
             id: user.id,
             name: user.name,
@@ -130,75 +132,75 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-async function refreshAccessToken(token: any) {
-  try {
-    if (!token.refreshToken) {
-      throw new Error('No refresh token available')
-    }
+// async function refreshAccessToken(token: any) {
+//   try {
+//     if (!token.refreshToken) {
+//       throw new Error('No refresh token available')
+//     }
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: `refresh_token=${token.refreshToken}`,
-        },
-        credentials: 'include',
-      },
-    )
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
+//       {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Cookie: `refresh_token=${token.refreshToken}`,
+//         },
+//         credentials: 'include',
+//       },
+//     )
 
-    console.log('refrsh')
+//     console.log('refrsh')
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error(
-        'Refresh failed - Status:',
-        response.status,
-        'Response:',
-        errorText,
-      )
-      throw new Error(errorText || 'Failed to refresh token')
-    }
+//     if (!response.ok) {
+//       const errorText = await response.text()
+//       console.error(
+//         'Refresh failed - Status:',
+//         response.status,
+//         'Response:',
+//         errorText,
+//       )
+//       throw new Error(errorText || 'Failed to refresh token')
+//     }
 
-    const data = await response.json()
-    const cookies = response.headers.get('set-cookie') as string
+//     const data = await response.json()
+//     const cookies = response.headers.get('set-cookie') as string
 
-    const newRefreshToken = cookies.split(';')[0].split('=')[1]
+//     const newRefreshToken = cookies.split(';')[0].split('=')[1]
 
-    return {
-      ...token,
-      accessToken: data.token,
-      accessTokenExpires: Date.now() + 30 * 60 * 1000,
-      refreshToken: newRefreshToken,
-      error: null,
-    }
-  } catch (error) {
-    console.error('Refresh token error:', error)
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError',
-    }
-  }
-}
+//     return {
+//       ...token,
+//       accessToken: data.token,
+//       accessTokenExpires: Date.now() + 30 * 60 * 1000,
+//       refreshToken: newRefreshToken,
+//       error: null,
+//     }
+//   } catch (error) {
+//     console.error('Refresh token error:', error)
+//     return {
+//       ...token,
+//       error: 'RefreshAccessTokenError',
+//     }
+//   }
+// }
 
-async function fetchUserData(accessToken: string): Promise<User> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    credentials: 'include',
-  })
+// async function fetchUserData(accessToken: string): Promise<User> {
+//   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//     credentials: 'include',
+//   })
 
-  if (!response.ok) {
-    const errorData = await response.json()
-    throw new Error(errorData.message || 'Authentication failed')
-  }
+//   if (!response.ok) {
+//     const errorData = await response.json()
+//     throw new Error(errorData.message || 'Authentication failed')
+//   }
 
-  const data = await response.json()
-  return data.user
-}
+//   const data = await response.json()
+//   return data.user
+// }
 
 export default NextAuth(authOptions)
