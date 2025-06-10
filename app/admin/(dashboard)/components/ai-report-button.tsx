@@ -14,7 +14,7 @@ import {
 import { BotIcon, LoaderCircleIcon } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Markdown from 'react-markdown'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { generateAiReport } from '../_actions/generate-ai-report'
 
@@ -31,6 +31,7 @@ const AiReportButton = ({
 }: AiReportButtonProps) => {
   const [report, setReport] = useState<string | null>(null)
   const [reportIsLoading, setReportIsLoading] = useState<boolean>(false)
+  const reportRef = useRef<HTMLDivElement>(null)
 
   const handleGenerateReportClick = async () => {
     try {
@@ -42,6 +43,61 @@ const AiReportButton = ({
     } finally {
       setReportIsLoading(false)
     }
+  }
+
+  const downloadReport = async () => {
+    if (!reportRef.current) return
+
+    const content = reportRef.current.innerHTML
+    const page = window.open('', '_blank')
+
+    if (!page) {
+      console.error('Failed to open new window for report download.')
+      return
+    }
+
+    const title = `Relatório ${month}/${year}`
+    const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${title}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #000;
+          }
+          h1, h2, h3, h4 {
+            color: #333;
+          }
+          pre {
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>${title}</h1>
+        ${content}
+         <script>
+          window.onload = function () {
+            window.print();
+          };
+          window.onafterprint = function () {
+            setTimeout(() => window.close(), 100);
+          };
+        </script>
+      </body>
+    </html>
+  `
+
+    page.document.open()
+    page.document.write(html)
+    page.document.close()
   }
 
   return (
@@ -65,24 +121,45 @@ const AiReportButton = ({
             </DialogHeader>
 
             <ScrollArea className="prose max-h-[450px] text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">
-              <Markdown>{report}</Markdown>
+              <div ref={reportRef}>
+                <Markdown>{report}</Markdown>
+              </div>
             </ScrollArea>
 
             <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="ghost">Cancelar</Button>
-              </DialogClose>
+              {report ? (
+                <DialogClose asChild>
+                  <Button variant="ghost">Fechar</Button>
+                </DialogClose>
+              ) : (
+                <DialogClose asChild>
+                  <Button variant="ghost">Cancelar</Button>
+                </DialogClose>
+              )}
 
-              <Button
-                onClick={handleGenerateReportClick}
-                disabled={reportIsLoading}
-                className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
-              >
-                {reportIsLoading && (
-                  <LoaderCircleIcon className="animate-spin" />
-                )}
-                {reportIsLoading ? `Gerando Relatório` : 'Gerar relatório'}
-              </Button>
+              {report ? (
+                <Button
+                  onClick={downloadReport}
+                  disabled={reportIsLoading}
+                  className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
+                >
+                  {reportIsLoading && (
+                    <LoaderCircleIcon className="animate-spin" />
+                  )}
+                  {reportIsLoading ? `Baixando Relatório` : 'Baixar relatório'}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleGenerateReportClick}
+                  disabled={reportIsLoading}
+                  className="bg-[#55B02E] hover:bg-[#55B02E]/60 text-white"
+                >
+                  {reportIsLoading && (
+                    <LoaderCircleIcon className="animate-spin" />
+                  )}
+                  {reportIsLoading ? `Gerando Relatório` : 'Gerar relatório'}
+                </Button>
+              )}
             </DialogFooter>
           </>
         ) : (
