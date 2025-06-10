@@ -14,7 +14,7 @@ import {
 import { BotIcon, LoaderCircleIcon } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import Markdown from 'react-markdown'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { generateAiReport } from '../_actions/generate-ai-report'
 
@@ -31,6 +31,7 @@ const AiReportButton = ({
 }: AiReportButtonProps) => {
   const [report, setReport] = useState<string | null>(null)
   const [reportIsLoading, setReportIsLoading] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const reportRef = useRef<HTMLDivElement>(null)
 
   const handleGenerateReportClick = async () => {
@@ -100,10 +101,20 @@ const AiReportButton = ({
     page.document.close()
   }
 
+  useEffect(() => {
+    if (!isOpen) {
+      setReport(null)
+    }
+  }, [isOpen])
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="font-bold rounded-4xl px-10 " variant="outline">
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="font-bold rounded-4xl px-10 "
+          variant="outline"
+        >
           Relatório IA
           <BotIcon />
         </Button>
@@ -129,7 +140,9 @@ const AiReportButton = ({
             <DialogFooter>
               {report ? (
                 <DialogClose asChild>
-                  <Button variant="ghost">Fechar</Button>
+                  <Button onClick={() => setIsOpen(false)} variant="ghost">
+                    Fechar
+                  </Button>
                 </DialogClose>
               ) : (
                 <DialogClose asChild>
