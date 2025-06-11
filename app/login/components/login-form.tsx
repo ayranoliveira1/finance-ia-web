@@ -19,6 +19,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useQuery } from '@tanstack/react-query'
+import { fetchIp } from '@/http/fecth-ip'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -31,10 +33,19 @@ const formSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof formSchema>
 
+interface FetchIP {
+  ip: string
+}
+
 export function LoginForm() {
   const [error, setError] = useState('')
 
   const router = useRouter()
+
+  const { data: requestData, isLoading } = useQuery<FetchIP>({
+    queryKey: ['ip'],
+    queryFn: fetchIp,
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,6 +60,7 @@ export function LoginForm() {
       redirect: false,
       email: data.email,
       password: data.password,
+      ip: requestData?.ip,
       callbackUrl: '/admin',
     })
 
@@ -106,7 +118,7 @@ export function LoginForm() {
         <Button
           type="submit"
           className="w-full bg-green-500 hover:bg-green-600 text-white"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isLoading}
         >
           {form.formState.isSubmitting ? (
             <div className="flex items-center justify-center">
