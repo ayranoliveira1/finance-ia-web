@@ -21,6 +21,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { fetchIp } from '@/http/fecth-ip'
+import { FetchIP } from '@/types/fetch-ip'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -32,10 +33,6 @@ const formSchema = z.object({
 })
 
 export type LoginFormValues = z.infer<typeof formSchema>
-
-interface FetchIP {
-  ip: string
-}
 
 export function LoginForm() {
   const [error, setError] = useState('')

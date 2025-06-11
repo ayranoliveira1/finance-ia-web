@@ -21,6 +21,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Register } from '@/http/register'
 import { toast } from 'sonner'
+import { useQuery } from '@tanstack/react-query'
+import { FetchIP } from '@/types/fetch-ip'
+import { fetchIp } from '@/http/fecth-ip'
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -50,6 +53,11 @@ export function RegisterForm() {
     },
   })
 
+  const { data: requestData, isLoading } = useQuery<FetchIP>({
+    queryKey: ['ip'],
+    queryFn: fetchIp,
+  })
+
   async function onSubmit(data: RegisterFormValues) {
     const result = await Register(data)
 
@@ -70,6 +78,7 @@ export function RegisterForm() {
         redirect: false,
         email: data.email,
         password: data.password,
+        ip: requestData?.ip,
         callbackUrl: '/admin',
       })
 
@@ -144,7 +153,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           className="w-full bg-green-500 hover:bg-green-600 text-white"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isLoading}
         >
           {form.formState.isSubmitting ? (
             <div className="flex items-center justify-center">
