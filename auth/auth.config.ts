@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
               headers: {
                 'Content-Type': 'application/json',
                 Cookie: req?.headers?.cookie || '',
+                'user-agent': req?.headers?.['user-agent'],
               },
               credentials: 'include',
             },
