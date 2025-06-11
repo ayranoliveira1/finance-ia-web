@@ -1,3 +1,5 @@
+'use server'
+
 export async function refreshAccessToken(token: any) {
   try {
     if (!token.refreshToken) {

@@ -7,10 +7,7 @@ export function TokenWatcher() {
   const { data: session, status } = useSession()
 
   useEffect(() => {
-    if (
-      status === 'authenticated' &&
-      session?.error === 'RefreshAccessTokenError'
-    ) {
+    if (status === 'authenticated' && session?.error) {
       console.warn('Refresh token expirado. Fazendo signOut...')
       signOut({ callbackUrl: '/login' })
     }
