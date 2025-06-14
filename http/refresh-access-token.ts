@@ -12,7 +12,7 @@ export async function refreshAccessToken(token: any) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Cookie: `refresh_token=${token.refreshToken}`,
+          Cookie: `refresh_token=${token.refreshToken}; session_id=${token.sessionId}`,
         },
         credentials: 'include',
       },
@@ -39,7 +39,7 @@ export async function refreshAccessToken(token: any) {
     return {
       ...token,
       accessToken: data.token,
-      accessTokenExpires: Date.now() + 20 * 60 * 1000,
+      accessTokenExpires: Date.now() + 7 * 60 * 1000,
       refreshToken: newRefreshToken,
       error: null,
     }

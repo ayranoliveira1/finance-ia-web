@@ -19,6 +19,7 @@ declare module 'next-auth' {
     createdAt: Date
     accessToken?: string
     refreshToken?: string
+    sessionId?: string
   }
 
   interface Session extends DefaultSession {
@@ -32,6 +33,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     accessToken: string
     refreshToken?: string
+    sessionId?: string
     user: {
       id: string
       name: string
