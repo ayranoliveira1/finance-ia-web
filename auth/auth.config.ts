@@ -21,7 +21,6 @@ export const authOptions: NextAuthOptions = {
               body: JSON.stringify(credentials),
               headers: {
                 'Content-Type': 'application/json',
-                Cookie: req?.headers?.cookie || '',
                 'user-agent': req?.headers?.['user-agent'],
               },
               credentials: 'include',
@@ -34,9 +33,19 @@ export const authOptions: NextAuthOptions = {
           }
 
           const data = await response.json()
-          const cookies = response.headers.get('set-cookie') as string
+          const cookieHeader = response.headers.get('set-cookie')
 
-          const refreshToken = cookies.split(';')[0].split('=')[1]
+          const refreshToken = cookieHeader
+            ?.split(',')
+            .find((c) => c.includes('refresh_token'))
+            ?.split(';')[0]
+            .split('=')[1]
+
+          const sessionId = cookieHeader
+            ?.split(',')
+            .find((c) => c.includes('session_id'))
+            ?.split(';')[0]
+            .split('=')[1]
 
           if (!data.token || !refreshToken) {
             throw new Error('Authentication data incomplete')
@@ -53,6 +62,7 @@ export const authOptions: NextAuthOptions = {
             subscriptionPlan: dataUser.subscriptionPlan,
             accessToken: data.token,
             refreshToken: refreshToken,
+            sessionId: sessionId,
           }
         } catch (error) {
           console.error('Authentication error:', error)
@@ -91,7 +101,8 @@ export const authOptions: NextAuthOptions = {
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-          accessTokenExpires: Date.now() + 20 * 60 * 1000,
+          sessionId: user.sessionId,
+          accessTokenExpires: Date.now() + 7 * 60 * 1000,
           user: {
             id: user.id,
             name: user.name,
@@ -105,7 +116,7 @@ export const authOptions: NextAuthOptions = {
 
       if (
         token.accessTokenExpires &&
-        Date.now() > Number(token.accessTokenExpires) - 5 * 60 * 1000
+        Date.now() > Number(token.accessTokenExpires) - 2 * 60 * 1000
       ) {
         console.log('Token expirando, tentando refresh...')
         return await refreshAccessToken(token)
