@@ -19,14 +19,10 @@ export async function refreshAccessToken(token: any) {
     )
 
     if (!response.ok) {
-      const errorText = await response.text()
-      console.error(
-        'Refresh failed - Status:',
-        response.status,
-        'Response:',
-        errorText,
-      )
-      throw new Error(errorText || 'Failed to refresh token')
+      return {
+        ...token,
+        error: 'RefreshAccessTokenError',
+      }
     }
 
     console.log('refresh')
