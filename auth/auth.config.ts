@@ -116,7 +116,7 @@ export const authOptions: NextAuthOptions = {
 
       if (
         token.accessTokenExpires &&
-        Date.now() > Number(token.accessTokenExpires) - 2 * 60 * 1000
+        Date.now() > Number(token.accessTokenExpires) - 6 * 60 * 1000
       ) {
         console.log('Token expirando, tentando refresh...')
         return await refreshAccessToken(token)
@@ -139,7 +139,7 @@ export const authOptions: NextAuthOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: 30 * 60 * 1000,
+        maxAge: 5 * 60 * 1000,
       },
     },
   },
