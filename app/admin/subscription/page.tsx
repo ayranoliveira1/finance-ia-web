@@ -23,6 +23,10 @@ const SubscriptionPage = async () => {
   const currentMonthTransactions =
     await getCurrentMonthTransactions(accessToken)
 
+  if (!currentMonthTransactions) {
+    redirect('/error?expired=1')
+  }
+
   return (
     <>
       <Header />

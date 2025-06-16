@@ -65,7 +65,7 @@ export function DataTable({ columns, accessToken }: DataTableProps) {
     pageSize: number
   }
 
-  const { data, isLoading } = useQuery<TransactionsPaginationType>({
+  const { data, isLoading, error } = useQuery<TransactionsPaginationType>({
     queryKey: ['transactions', { search, page }],
     queryFn: async () => {
       const response = await fetch(
@@ -159,6 +159,10 @@ export function DataTable({ columns, accessToken }: DataTableProps) {
 
   if (!data) {
     return null
+  }
+
+  if (error) {
+    router.push('/error?expired=1')
   }
 
   return (
