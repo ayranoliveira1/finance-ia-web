@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import AuthProvider from '@/providers/auth'
 import QueryProvider from '@/providers/query-provider'
 import { TokenWatcher } from '@/auth/token-watcher'
+import { Suspense } from 'react'
 
 const mulish = Mulish({
   subsets: ['latin-ext'],
@@ -62,11 +63,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body className={`${mulish.className} dark antialiased scroll-smooth`}>
         <AuthProvider>
           <QueryProvider>{children}</QueryProvider>
-          <TokenWatcher />
+          <Suspense fallback={null}>
+            <TokenWatcher />
+          </Suspense>
 
           <Toaster />
         </AuthProvider>
