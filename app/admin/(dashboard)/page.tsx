@@ -43,6 +43,10 @@ const Home = async ({ searchParams }: HomePros) => {
 
   const hasPremiumPlan = session.user.subscriptionPlan === 'PREMIUM'
 
+  if (!dashboard) {
+    redirect('/error?expired=1')
+  }
+
   return (
     <>
       <Header />
