@@ -84,9 +84,12 @@ export function LoginForm() {
 
       setError(errorMap[decodedError])
       deleteCookie('auth_error')
+
+      localStorage.setItem('email', data.email)
     }
 
     if (result?.url) {
+      localStorage.removeItem('email')
       router.push(result.url)
     }
   }
