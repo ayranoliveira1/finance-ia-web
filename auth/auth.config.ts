@@ -2,6 +2,7 @@ import { getUser } from '@/http/get-user'
 import { refreshAccessToken } from '@/http/refresh-access-token'
 import NextAuth, { type NextAuthOptions, type User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { cookies } from 'next/headers'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -29,7 +30,14 @@ export const authOptions: NextAuthOptions = {
 
           if (!response.ok) {
             const errorData = await response.json()
-            throw new Error(errorData.message || 'Authentication failed')
+
+            ;(await cookies()).set('auth_error', errorData.message, {
+              httpOnly: false,
+              maxAge: 160,
+              path: '/',
+            })
+
+            return null
           }
 
           const data = await response.json()
