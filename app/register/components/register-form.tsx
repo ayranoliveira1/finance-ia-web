@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { LogIn } from 'lucide-react'
-import { signIn } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -21,21 +20,27 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Register } from '@/http/register'
 import { toast } from 'sonner'
-import { useQuery } from '@tanstack/react-query'
-import { FetchIP } from '@/types/fetch-ip'
-import { fetchIp } from '@/http/fecth-ip'
+import { sendVerifyEmail } from '@/http/send-verify-email'
 
-const formSchema = z.object({
-  name: z.string().min(3, {
-    message: 'O nome é obrigatório.',
-  }),
-  email: z.string().email({
-    message: 'Digite um email válido.',
-  }),
-  password: z.string().min(8, {
-    message: 'A senha deve ter pelo menos 8 caracteres.',
-  }),
-})
+const formSchema = z
+  .object({
+    name: z.string().min(3, {
+      message: 'O nome é obrigatório.',
+    }),
+    email: z.string().email({
+      message: 'Digite um email válido.',
+    }),
+    password: z.string().min(8, {
+      message: 'A senha deve ter pelo menos 8 caracteres.',
+    }),
+    confirmPassword: z.string().min(8, {
+      message: 'A confirmação de senha deve ter pelo menos 8 caracteres.',
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não conferem.',
+    path: ['confirmPassword'],
+  })
 
 export type RegisterFormValues = z.infer<typeof formSchema>
 
@@ -50,16 +55,18 @@ export function RegisterForm() {
       name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   })
 
-  const { data: requestData, isLoading } = useQuery<FetchIP>({
-    queryKey: ['ip'],
-    queryFn: fetchIp,
-  })
-
   async function onSubmit(data: RegisterFormValues) {
-    const result = await Register(data)
+    const dataToRegister = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    }
+
+    const result = await Register(dataToRegister)
 
     if (result.statusCode === 409) {
       setError('Email já cadastrado.')
@@ -74,23 +81,26 @@ export function RegisterForm() {
     toast.success('Conta criada com sucesso!')
 
     if (result.statusCode === 201) {
-      const signInResult = await signIn('credentials', {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-        ip: requestData?.ip,
-        callbackUrl: '/admin',
-      })
+      const sendVeridyEmailResult = await sendVerifyEmail(data.email)
 
-      if (signInResult?.error) {
-        setError(signInResult.error)
-        toast.error('Erro ao fazer login.')
+      console.log('sendVeridyEmailResult', sendVeridyEmailResult)
+
+      if (sendVeridyEmailResult?.error) {
+        if (sendVeridyEmailResult.message === 'Email is already verified') {
+          setError('Email já verificado.')
+          return
+        }
+
+        if (sendVeridyEmailResult.message === 'Invalid credentials') {
+          setError('Credenciais inválidas. Tente novamente.')
+          return
+        }
+
+        setError(sendVeridyEmailResult.error)
         return
       }
 
-      if (signInResult?.url) {
-        router.push(signInResult.url)
-      }
+      router.push('/verify-email')
     }
   }
 
@@ -150,10 +160,29 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray-300">Confirmar Senha</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="******"
+                  {...field}
+                  className="border-gray-700 bg-gray-800 text-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           className="w-full bg-green-500 hover:bg-green-600 text-white"
-          disabled={form.formState.isSubmitting || isLoading}
+          disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
             <div className="flex items-center justify-center">
