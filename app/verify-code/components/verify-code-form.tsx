@@ -20,6 +20,7 @@ const VerifyCodeForm = () => {
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [error, setError] = useState('')
   const [timeLeft, setTimeLeft] = useState(600)
+  const [timeResendReset, setTimeResendReset] = useState(60)
   const [isResending, setIsResending] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
@@ -32,6 +33,15 @@ const VerifyCodeForm = () => {
         setTimeLeft((prev) => prev - 1)
       }, 1000)
       return () => clearInterval(timer)
+    }
+  }, [timeLeft])
+
+  useEffect(() => {
+    if (timeLeft > 540) {
+      const resendTimer = setInterval(() => {
+        setTimeResendReset((prev) => prev - 1)
+      }, 1000)
+      return () => clearInterval(resendTimer)
     }
   }, [timeLeft])
 
@@ -177,7 +187,10 @@ const VerifyCodeForm = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Button className="inline-flex items-center bg-transparent hover:bg-transparent text-gray-400 hover:text-white transition-colors mb-6">
+        <Button
+          onClick={() => router.back()}
+          className="inline-flex items-center bg-transparent hover:bg-transparent text-gray-400 hover:text-white transition-colors mb-6"
+        >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Voltar
         </Button>
@@ -275,9 +288,10 @@ const VerifyCodeForm = () => {
                 {isResending ? (
                   <>
                     <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+                    Reenviando...
                   </>
                 ) : timeLeft > 540 ? (
-                  'Código enviado com sucesso!'
+                  `Reenviar código em (${formatTime(timeResendReset)})`
                 ) : (
                   'Reenviar Código'
                 )}
