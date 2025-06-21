@@ -22,6 +22,8 @@ import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { fetchIp } from '@/http/fecth-ip'
 import { FetchIP } from '@/types/fetch-ip'
+import { getCookies } from '@/lib/get-cookies'
+import { deleteCookie } from '@/lib/delete-cookies'
 
 const formSchema = z.object({
   email: z.string().email({
@@ -62,14 +64,32 @@ export function LoginForm() {
     })
 
     if (result?.error) {
-      setError(
-        result.error === 'CredentialsSignin'
-          ? 'Email ou senha inválidos.'
-          : result.error,
-      )
+      const errorAuth = getCookies('auth_error')
+
+      if (!errorAuth) {
+        setError('Ocorreu um erro ao fazer login. Tente novamente.')
+        return
+      }
+
+      const decodedError = decodeURIComponent(errorAuth)
+
+      const errorMap: Record<string, string> = {
+        'Invalid credentials': 'Email ou senha inválidos.',
+        'Email is not verified': 'Email não verificado.',
+        'User is not active': 'Conta inativa. Entre em contato com o suporte.',
+        'Bad Request': 'Requisição inválida. Verifique os dados enviados.',
+        'Internal Server Error':
+          'Erro interno do servidor. Tente novamente mais tarde.',
+      }
+
+      setError(errorMap[decodedError])
+      deleteCookie('auth_error')
+
+      localStorage.setItem('email', data.email)
     }
 
     if (result?.url) {
+      localStorage.removeItem('email')
       router.push(result.url)
     }
   }

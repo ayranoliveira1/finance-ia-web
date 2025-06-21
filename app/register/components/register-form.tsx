@@ -78,8 +78,6 @@ export function RegisterForm() {
       return
     }
 
-    toast.success('Conta criada com sucesso!')
-
     if (result.statusCode === 201) {
       const sendVeridyEmailResult = await sendVerifyEmail(data.email)
 
@@ -100,7 +98,9 @@ export function RegisterForm() {
         return
       }
 
-      router.push('/verify-email')
+      localStorage.setItem('email', data.email)
+      toast.success('Conta criada com sucesso!')
+      router.push('/verify-code')
     }
   }
 
