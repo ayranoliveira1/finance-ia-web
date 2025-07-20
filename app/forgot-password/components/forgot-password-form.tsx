@@ -143,7 +143,14 @@ export function ForgotPasswordForm() {
                     disabled={isSubmitting}
                     className="w-full border-gray-700 hover:bg-[#050A14] hover:border-green-500 bg-transparent"
                   >
-                    {isSubmitting ? 'Reenviando...' : 'Reenviar e-mail'}
+                    {isSubmitting ? (
+                      <div className="flex items-center">
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Reenviando...
+                      </div>
+                    ) : (
+                      'Reenviar e-mail'
+                    )}
                   </Button>
 
                   <Button
@@ -249,7 +256,7 @@ export function ForgotPasswordForm() {
               >
                 {isSubmitting ? (
                   <div className="flex items-center">
-                    <Loader2 className="h-4 w-4 mr-2 animate-pulse" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Enviando...
                   </div>
                 ) : (
