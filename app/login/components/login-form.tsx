@@ -132,6 +132,15 @@ export function LoginForm() {
             </FormItem>
           )}
         />
+
+        <div className="flex items-center justify-end -mt-4">
+          <Link
+            className="text-xs text-green-500 hover:underline"
+            href={'/forgot-password'}
+          >
+            Esqueceu a senha?
+          </Link>
+        </div>
         <Button
           type="submit"
           className="w-full bg-green-500 hover:bg-green-600 text-white"
