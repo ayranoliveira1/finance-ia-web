@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { SectionHeader } from '../shared/section-header'
-import { fetchSession } from '@/http/fetch-session'
+import { fetchSession } from '@/http/data/user/fetch-session'
 import { formateDate } from '@/lib/format-date'
 
 export function DevicesSection() {

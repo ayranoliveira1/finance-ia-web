@@ -1,4 +1,4 @@
-import { getUser } from '@/http/get-user'
+import { getUser } from '@/http/data/user/get-user'
 import { refreshAccessToken } from '@/http/actions/user/refresh-access-token'
 import NextAuth, { type NextAuthOptions, type User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
