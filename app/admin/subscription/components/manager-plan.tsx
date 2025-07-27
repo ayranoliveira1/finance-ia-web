@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/select'
 import { AlertTriangle, LoaderCircleIcon } from 'lucide-react'
 import { toast } from 'sonner'
-import { cancelPlan } from '@/http/cancel-plan'
+import { cancelPlan } from '@/http/actions/plan/cancel-plan'
 import { useSession } from 'next-auth/react'
 
 interface ManagePlanModalProps {

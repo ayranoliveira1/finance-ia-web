@@ -6,7 +6,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/auth/useAuth'
-import { paymentStripe } from '@/http/payment-stripe'
+import { paymentStripe } from '@/http/actions/plan/payment-stripe'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { LoaderCircleIcon } from 'lucide-react'
