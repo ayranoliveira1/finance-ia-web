@@ -5,7 +5,7 @@ import LastTransactionSkeleton from './components/skeleton/last-tranasaction-ske
 import Header from '@/components/header'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
-import { getDashboard } from '@/http/get-dashboard'
+import { getDashboard } from '@/http/data/transactions/get-dashboard'
 import SummaryCards from './components/summary-cards'
 import TransactionsPieChart from './components/transactions-pie-chart'
 import ExpensePerCategory from './components/expenses-per-category'

@@ -1,5 +1,5 @@
 import { authOptions } from '@/auth/auth.config'
-import { getCurrentMonthTransactions } from '@/http/get-current-month-transactions'
+import { getCurrentMonthTransactions } from '@/http/data/transactions/get-current-month-transactions'
 import { getServerSession } from 'next-auth'
 
 export const canUserAddTransaction = async () => {

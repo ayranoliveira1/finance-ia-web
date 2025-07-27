@@ -6,7 +6,7 @@ import Header from '@/components/header'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/auth/auth.config'
-import { getCurrentMonthTransactions } from '@/http/get-current-month-transactions'
+import { getCurrentMonthTransactions } from '@/http/data/transactions/get-current-month-transactions'
 
 const SubscriptionPage = async () => {
   const session = await getServerSession(authOptions)
