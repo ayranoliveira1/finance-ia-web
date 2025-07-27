@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { deleteTransaction } from '@/http/delete-transaction'
+import { deleteTransaction } from '@/http/actions/transactions/delete-transaction'
 import { useQueryClient } from '@tanstack/react-query'
 import { LoaderCircleIcon, TrashIcon } from 'lucide-react'
 import { useState } from 'react'

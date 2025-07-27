@@ -42,9 +42,9 @@ import {
   TransactionPaymentMethod,
   TransactionType,
 } from '@/types/enums'
-import { createTransaction } from '@/http/create-transaction'
+import { createTransaction } from '@/http/actions/transactions/create-transaction'
 import { useAuth } from '@/auth/useAuth'
-import { editTransaction } from '@/http/edit-transaction'
+import { editTransaction } from '@/http/actions/transactions/edit-transaction'
 import { useQueryClient } from '@tanstack/react-query'
 
 const formSchema = z.object({
