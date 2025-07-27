@@ -12,9 +12,9 @@ import { ArrowLeft, Mail, RefreshCcw, Shield, Timer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { sendVerifyEmail } from '@/http/send-verify-email'
+import { sendVerifyEmail } from '@/http/actions/user/send-verify-email'
 import { useRouter } from 'next/navigation'
-import { verifyCode } from '@/http/verify-code'
+import { verifyCode } from '@/http/actions/user/verify-code'
 
 const VerifyCodeForm = () => {
   const [code, setCode] = useState(['', '', '', '', '', ''])

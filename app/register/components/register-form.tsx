@@ -18,9 +18,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Register } from '@/http/register'
+import { Register } from '@/http/actions/user/register'
 import { toast } from 'sonner'
-import { sendVerifyEmail } from '@/http/send-verify-email'
+import { sendVerifyEmail } from '@/http/actions/user/send-verify-email'
 
 const formSchema = z
   .object({

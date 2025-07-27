@@ -17,7 +17,7 @@ import {
 import Link from 'next/link'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { forgotPassword } from '@/http/forgot-password'
+import { forgotPassword } from '@/http/actions/user/forgot-password'
 import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({

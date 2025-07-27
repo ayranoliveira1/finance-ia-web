@@ -19,7 +19,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import Link from 'next/link'
-import { resetPassword } from '@/http/reset-password'
+import { resetPassword } from '@/http/actions/user/reset-password'
 import { useRouter } from 'next/navigation'
 
 const resetPasswordSchema = z

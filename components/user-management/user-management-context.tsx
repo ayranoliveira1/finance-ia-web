@@ -9,10 +9,10 @@ import type {
   EmailFormValues,
 } from './schemas'
 import { useAuth } from '@/auth/useAuth'
-import { deleteAccount } from '@/http/delete-account'
+import { deleteAccount } from '@/http/actions/user/delete-account'
 import { toast } from 'sonner'
 import { signOut, useSession } from 'next-auth/react'
-import { editUser } from '@/http/edit-user'
+import { editUser } from '@/http/actions/user/edit-user'
 import { User } from 'next-auth'
 
 type UserData = {
